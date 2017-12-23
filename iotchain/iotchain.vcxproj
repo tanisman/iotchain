@@ -38,13 +38,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -68,20 +68,41 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)iotchain\lib\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)iotchain\lib\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)iotchain\lib\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)iotchain\lib\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)iotchain\include;$(SolutionDir)external\asio\include;$(SolutionDir)external\cryptopp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)external\cryptopp\lib\$(Platform)\$(Configuration)\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)iotchain\include;$(SolutionDir)external\asio\include;$(SolutionDir)external\cryptopp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)external\cryptopp\lib\$(Platform)\$(Configuration)\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -90,11 +111,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)iotchain\include;$(SolutionDir)external\asio\include;$(SolutionDir)external\cryptopp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)external\cryptopp\lib\$(Platform)\$(Configuration)\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -103,13 +129,73 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)iotchain\include;$(SolutionDir)external\asio\include;$(SolutionDir)external\cryptopp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)external\cryptopp\lib\$(Platform)\$(Configuration)\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\base58.h" />
+    <ClInclude Include="include\ChainTypes.h" />
+    <ClInclude Include="src\Core\block_container.h" />
+    <ClInclude Include="include\CryptoTypes.h" />
+    <ClInclude Include="src\Core\Blockchain.h" />
+    <ClInclude Include="include\ChainThings.h" />
+    <ClInclude Include="src\Logging\logger.h" />
+    <ClInclude Include="src\Logging\spdlog\async_logger.h" />
+    <ClInclude Include="src\Logging\spdlog\common.h" />
+    <ClInclude Include="src\Logging\spdlog\details\async_logger_impl.h" />
+    <ClInclude Include="src\Logging\spdlog\details\async_log_helper.h" />
+    <ClInclude Include="src\Logging\spdlog\details\file_helper.h" />
+    <ClInclude Include="src\Logging\spdlog\details\logger_impl.h" />
+    <ClInclude Include="src\Logging\spdlog\details\log_msg.h" />
+    <ClInclude Include="src\Logging\spdlog\details\mpmc_bounded_q.h" />
+    <ClInclude Include="src\Logging\spdlog\details\null_mutex.h" />
+    <ClInclude Include="src\Logging\spdlog\details\os.h" />
+    <ClInclude Include="src\Logging\spdlog\details\pattern_formatter_impl.h" />
+    <ClInclude Include="src\Logging\spdlog\details\registry.h" />
+    <ClInclude Include="src\Logging\spdlog\details\spdlog_impl.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\bundled\format.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\bundled\ostream.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\bundled\posix.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\bundled\printf.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\bundled\time.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\fmt.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\ostr.h" />
+    <ClInclude Include="src\Logging\spdlog\formatter.h" />
+    <ClInclude Include="src\Logging\spdlog\logger.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\android_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\ansicolor_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\base_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\dist_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\file_sinks.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\msvc_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\null_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\ostream_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\stdout_sinks.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\syslog_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\wincolor_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\windebug_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\spdlog.h" />
+    <ClInclude Include="src\Logging\spdlog\tweakme.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\base58.cpp" />
+    <ClCompile Include="src\ChainTypes.cpp" />
+    <ClCompile Include="src\Core\block_container.cpp" />
+    <ClCompile Include="src\Core\Blockchain.cpp" />
+    <ClCompile Include="src\Logging\logger.cpp" />
+    <ClCompile Include="src\Logging\spdlog\fmt\bundled\format.cc" />
+    <ClCompile Include="src\Logging\spdlog\fmt\bundled\ostream.cc" />
+    <ClCompile Include="src\Logging\spdlog\fmt\bundled\posix.cc" />
+    <ClCompile Include="src\Logging\spdlog\fmt\bundled\printf.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
