@@ -1,31 +1,18 @@
 #include "Blockchain.h"
-#include <cryptopp\sha.h>
-#include <cryptopp\rsa.h>
-#include <cryptopp\files.h>
-#include <cryptopp\osrng.h>
-#include <cryptopp\base64.h>
-#include <base58.h>
-
+#include <cassert>
+#include <iostream>
 
 using namespace chainthings;
-
+using namespace CryptoPP;
+	
 blockchain::blockchain()
 {
-	CryptoPP::AutoSeededRandomPool rnd;
-	CryptoPP::RSA::PrivateKey rsaPrivate;
-	rsaPrivate.GenerateRandomWithKeySize(rnd, 256);
 
-	std::string buff;
-	rsaPrivate.DEREncode(CryptoPP::StringSink(buff).Ref());
-	std::cout << buff;
 }
-
 
 blockchain::~blockchain()
 {
 }
-
-#include <cryptopp\dsa.h>
 
 bool blockchain::init(const std::string& folder)
 {
@@ -50,19 +37,27 @@ bool blockchain::init(const std::string& folder)
 		logger(log_level::warn) << "create an account to send all coins?(y/Y): ";
 		std::string ans;
 		std::cin >> ans;
-		if (ans == "y" || ans == "Y")
-		{
-			
-		}
 
 		TX tx;
-		tx.from_ = { 0 };
-		tx.to_ = { 0 };
-		tx.time_ = std::time(nullptr);
-		tx.inputs_.push_back(TXInput{ 0, 123456789 });
-		tx.outputs_.push_back(TXOutput{ 123456789, { 0 } });
+
+		if (ans == "y" || ans == "Y")
+		{
+			KeyPair kp;
+			tx.from_ = { 0 };
+			tx.to_ = kp.public_key();
+			tx.time_ = std::time(nullptr);
+			tx.inputs_.push_back(TXInput{ 0, 123456789 });
+			tx.outputs_.push_back(TXOutput{ 123456789, tx.to_ });
+		}
+		else
+		{
+			tx.from_ = { 0 };
+			tx.to_ = { 0 };
+			tx.time_ = std::time(nullptr);
+			tx.inputs_.push_back(TXInput{ 0, 0 });
+			tx.outputs_.push_back(TXOutput{ 0,{ 0 } });
+		}
 		this->container()->generate_genesis(std::move(tx));
-		
 	}
 }
 

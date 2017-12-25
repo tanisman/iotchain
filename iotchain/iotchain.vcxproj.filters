@@ -53,6 +53,8 @@
     <ClInclude Include="src\Core\block_container.h" />
     <ClInclude Include="include\ChainTypes.h" />
     <ClInclude Include="include\base58.h" />
+    <ClInclude Include="src\Key\public_key.h" />
+    <ClInclude Include="src\Key\private_key.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Blockchain.cpp" />
@@ -64,5 +66,7 @@
     <ClCompile Include="src\Core\block_container.cpp" />
     <ClCompile Include="src\base58.cpp" />
     <ClCompile Include="src\ChainTypes.cpp" />
+    <ClCompile Include="src\Key\public_key.cpp" />
+    <ClCompile Include="src\Key\private_key.cpp" />
   </ItemGroup>
 </Project>

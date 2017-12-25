@@ -85,11 +85,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)iotchain\include;$(SolutionDir)external\asio\include;$(SolutionDir)external\cryptopp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\secp256k1\include;$(SolutionDir)iotchain\include;$(SolutionDir)external\asio\include;$(SolutionDir)external\cryptopp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>$(SolutionDir)external\cryptopp\lib\$(Platform)\$(Configuration)\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)external\secp256k1\lib\$(Platform)\$(Configuration)\secp256k1.lib;$(SolutionDir)external\cryptopp\lib\$(Platform)\$(Configuration)\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -111,7 +111,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)iotchain\include;$(SolutionDir)external\asio\include;$(SolutionDir)external\cryptopp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\secp256k1\include;$(SolutionDir)iotchain\include;$(SolutionDir)external\asio\include;$(SolutionDir)external\cryptopp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -119,7 +119,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>$(SolutionDir)external\cryptopp\lib\$(Platform)\$(Configuration)\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)external\secp256k1\lib\$(Platform)\$(Configuration)\secp256k1.lib;$(SolutionDir)external\cryptopp\lib\$(Platform)\$(Configuration)\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -143,6 +143,8 @@
   <ItemGroup>
     <ClInclude Include="include\base58.h" />
     <ClInclude Include="include\ChainTypes.h" />
+    <ClInclude Include="src\Key\private_key.h" />
+    <ClInclude Include="src\Key\public_key.h" />
     <ClInclude Include="src\Core\block_container.h" />
     <ClInclude Include="include\CryptoTypes.h" />
     <ClInclude Include="src\Core\Blockchain.h" />
@@ -187,6 +189,8 @@
     <ClInclude Include="src\Logging\spdlog\tweakme.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Key\private_key.cpp" />
+    <ClCompile Include="src\Key\public_key.cpp" />
     <ClCompile Include="src\base58.cpp" />
     <ClCompile Include="src\ChainTypes.cpp" />
     <ClCompile Include="src\Core\block_container.cpp" />

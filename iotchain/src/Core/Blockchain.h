@@ -5,7 +5,7 @@
 #include "block_container.h"
 #include "../Logging/logger.h"
 
-namespace chainthings {
+_CHAIN_THINGS_BEGIN
 
 class blockchain
 {
@@ -22,5 +22,5 @@ private:
 	std::string cfg_folder_;
 };
 
-}
+_CHAIN_THINGS_END
 

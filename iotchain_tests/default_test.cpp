@@ -11,5 +11,7 @@ default_test::default_test(int argc, char **argv)
 
 bool default_test::execute()
 {
+	chainthings::blockchain bc;
 	return true;
 }
+

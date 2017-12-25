@@ -1,12 +1,16 @@
 #include "ChainTypes.h"
 #include <cryptopp\sha.h>
-#include <cryptopp\rsa.h>
+#include <cryptopp\eccrypto.h>
 #include <cryptopp\files.h>
 #include <cryptopp\osrng.h>
-#include <cryptopp\base64.h>
+#include <cryptopp\ripemd.h>
+#include <cryptopp\oids.h>
+#include <secp256k1.h>
 #include <base58.h>
+#include <cassert>
 
 using namespace chainthings;
+using namespace CryptoPP;
 
 TXHash::TXHash(const TX& tx)
 {
@@ -80,18 +84,95 @@ BlockHash::BlockHash(const Block& bl)
 }
 
 
-KeyPair::KeyPair()
+KeyPair::KeyPair(KeyType type)
 {
-	CryptoPP::AutoSeededRandomPool rnd;
-	CryptoPP::RSA::PrivateKey rsaPrivate;
-	rsaPrivate.GenerateRandomWithKeySize(rnd, 256);
+	secp256k1_context *context = secp256k1_context_create(SECP256K1_CONTEXT_SIGN);
 
-	CryptoPP::Base64Encoder privkeysink(new CryptoPP::FileSink("privkey.txt"));
-	rsaPrivate.DEREncode(privkeysink);
-	privkeysink.MessageEnd();
+	secp256k1_context_set_illegal_callback(context, [](const char* message, void* data)
+	{
+		std::cout << "illegal argument: " << message << std::endl;
+	}, nullptr);
 
-	CryptoPP::RSA::PublicKey rsaPublic(rsaPrivate);
-	CryptoPP::Base64Encoder pubkeysink(new CryptoPP::FileSink("pubkey.txt"));
-	rsaPublic.DEREncode(pubkeysink);
-	pubkeysink.MessageEnd();
+	secp256k1_context_set_error_callback(context, [](const char* message, void* data)
+	{
+		std::cout << "error: " << message << std::endl;
+	}, nullptr);
+
+	/****** generate new secp256k1 private key ******/
+	AutoSeededRandomPool prng;
+	ECDSA<ECP, SHA256>::PrivateKey privateKey;
+	ECDSA<ECP, SHA256>::PublicKey publicKey;
+
+	privateKey.Initialize(prng, ASN1::secp256k1());
+	assert(privateKey.Validate(prng, 3) && "cant validate new private key");
+
+	auto exp = privateKey.GetPrivateExponent();
+	auto exp_count = exp.ByteCount();
+	for (uint32_t i = 0; i < exp_count; i++)
+	{
+		this->first[i] = exp.GetByte(i);
+	}
+
+	/****** get public key of private key ******/
+	secp256k1_pubkey secp_pub;
+	secp256k1_ec_pubkey_create(context, &secp_pub, this->first.data());
+
+	std::reverse(std::begin(secp_pub.data), std::begin(secp_pub.data) + 32);
+	std::reverse(std::begin(secp_pub.data) + 32, std::end(secp_pub.data));
+
+	const byte c = 0x04;
+	const byte n = type;
+
+	/******* calculate hash160=ripemd(sha256(pubkey)) *******/
+	byte sha_digest[SHA256::DIGESTSIZE];
+	SHA256 sha256;
+	sha256.Update(&c, 1);
+	sha256.Update(secp_pub.data, 64);
+	sha256.Final(sha_digest);
+
+	byte rmd_digest[RIPEMD160::DIGESTSIZE];
+	RIPEMD160 rmd160;
+	rmd160.Update(sha_digest, sizeof(sha_digest));
+	rmd160.Final(rmd_digest);
+
+	/******* calculate sha256 checksum=sha256(sha256(hash160)) *******/
+	sha256.Restart();
+	sha256.Update(&n, 1);
+	sha256.Update(rmd_digest, sizeof(rmd_digest));
+	sha256.Final(sha_digest);
+
+	sha256.Restart();
+	sha256.Update(sha_digest, sizeof(sha_digest));
+	sha256.Final(sha_digest);
+
+	/******* generate public address ******/
+	this->second[0] = n; //address type derived from chainthings::KeyType
+	memcpy(this->second.data() + 1, rmd_digest, sizeof(rmd_digest)); //write hash160
+	memcpy(this->second.data() + sizeof(rmd_digest) + 1, sha_digest, 4); //write first dword of checksum
+
+	/****** generate private address ******/
+	const byte priv_key_t = account_private_key;
+	sha256.Restart();
+	sha256.Update(&priv_key_t, 1);
+	sha256.Update(this->first.data(), this->first.size());
+	sha256.Final(sha_digest);
+
+	sha256.Restart();
+	sha256.Update(sha_digest, sizeof(sha_digest));
+	sha256.Final(sha_digest);
+
+	std::vector<unsigned char> pk;
+	pk.push_back(priv_key_t);
+	pk.insert(pk.end(), this->first.begin(), this->first.end());
+	pk.insert(std::end(pk), std::begin(sha_digest), std::begin(sha_digest) + 4);
+
+	/****** encode ******/
+	std::string base58_privkey(base58_encode(pk));
+	std::string base58_pubkey(base58_encode(this->second.data(), this->second.data() + this->second.size()));
+
+	/****** save to file ******/
+	std::ofstream ofile(base58_pubkey + "_private.txt", std::ios::out);
+	ofile << base58_privkey;
+ 
+	secp256k1_context_destroy(context);
 }

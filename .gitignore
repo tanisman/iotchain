@@ -246,3 +246,6 @@ ModelManifest.xml
 
 # logs
 log_*
+
+# private keys
+1*_private.txt

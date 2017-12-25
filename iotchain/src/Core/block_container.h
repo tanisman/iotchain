@@ -3,7 +3,7 @@
 #include <ChainTypes.h>
 #include <list>
 
-namespace chainthings {
+_CHAIN_THINGS_BEGIN
 
 class block_container
 {
@@ -19,5 +19,5 @@ private:
 	ContainerT blocks_;
 };
 
-}
+_CHAIN_THINGS_END
 
