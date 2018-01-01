@@ -1,7 +1,8 @@
 #pragma once
 
-#define _CHAIN_THINGS_BEGIN	namespace chainthings {
-#define _CHAIN_THINGS_END	}
+#define _CHAIN_THINGS_BEGIN		namespace chainthings {
+#define _CHAIN_THINGS_END		}
+#define MAIN_NETWORK_ID			4
 
 #include <vector>
 #include <utility>
@@ -91,6 +92,6 @@ struct KeyPair : private std::pair<Crypto::SecretKey, Crypto::PublicKey>
 	}
 };
 
-
+extern uint8_t g_network_id;
 
 _CHAIN_THINGS_END

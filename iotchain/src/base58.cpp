@@ -1,9 +1,11 @@
 #include <base58.h>
 #include <cassert>
 
+using namespace chainthings;
+
 static const char* pszBase58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
-bool base58_decode(const char* psz, std::vector<unsigned char>& vch)
+bool chainthings::base58_decode(const char* psz, std::vector<unsigned char>& vch)
 {
 	// Skip leading spaces.
 	while (*psz && isspace(*psz))
@@ -53,7 +55,7 @@ bool base58_decode(const char* psz, std::vector<unsigned char>& vch)
 	return true;
 }
 
-std::string base58_encode(const unsigned char* pbegin, const unsigned char* pend)
+std::string chainthings::base58_encode(const unsigned char* pbegin, const unsigned char* pend)
 {
 	// Skip & count leading zeroes.
 	int zeroes = 0;
@@ -93,12 +95,12 @@ std::string base58_encode(const unsigned char* pbegin, const unsigned char* pend
 	return str;
 }
 
-std::string base58_encode(const std::vector<unsigned char>& vch)
+std::string chainthings::base58_encode(const std::vector<unsigned char>& vch)
 {
 	return base58_encode(vch.data(), vch.data() + vch.size());
 }
 
-bool base58_decode(const std::string& str, std::vector<unsigned char>& vchRet)
+bool chainthings::base58_decode(const std::string& str, std::vector<unsigned char>& vchRet)
 {
 	return base58_decode(str.c_str(), vchRet);
 }

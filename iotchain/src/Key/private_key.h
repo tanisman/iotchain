@@ -15,10 +15,10 @@ public:
 	bool sign(const Crypto::Hash& hash, Crypto::Signature& sign);
 };
 
-void secp256k_start();
-void secp256k_stop();
+void secp256k1_sign_start();
+void secp256k1_sign_stop();
 
-extern secp256k1_context* g_secp256k1_context;
+extern secp256k1_context* g_secp256k1_sign_context;
 
 _CHAIN_THINGS_END
 

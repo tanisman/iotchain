@@ -12,6 +12,8 @@
 using namespace chainthings;
 using namespace CryptoPP;
 
+uint8_t chainthings::g_network_id = MAIN_NETWORK_ID;
+
 TXHash::TXHash(const TX& tx)
 {
 	Crypto::Hash* hash = dynamic_cast<Crypto::Hash *>(this);
@@ -86,16 +88,21 @@ BlockHash::BlockHash(const Block& bl)
 
 KeyPair::KeyPair(KeyType type)
 {
+	//you must pass public key type only
+	assert(type != account_private_key);
+
 	secp256k1_context *context = secp256k1_context_create(SECP256K1_CONTEXT_SIGN);
 
 	secp256k1_context_set_illegal_callback(context, [](const char* message, void* data)
 	{
 		std::cout << "illegal argument: " << message << std::endl;
+		throw std::runtime_error(message);
 	}, nullptr);
 
 	secp256k1_context_set_error_callback(context, [](const char* message, void* data)
 	{
 		std::cout << "error: " << message << std::endl;
+		throw std::runtime_error(message);
 	}, nullptr);
 
 	/****** generate new secp256k1 private key ******/

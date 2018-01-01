@@ -6,6 +6,10 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <ChainTypes.h>
+
+_CHAIN_THINGS_BEGIN
+
 
 /**
 * Encode a byte sequence as a base58-encoded string.
@@ -32,3 +36,5 @@ bool base58_decode(const char* psz, std::vector<unsigned char>& vchRet);
 */
 bool base58_decode(const std::string& str, std::vector<unsigned char>& vchRet);
 
+
+_CHAIN_THINGS_END

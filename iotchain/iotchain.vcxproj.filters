@@ -68,5 +68,6 @@
     <ClCompile Include="src\ChainTypes.cpp" />
     <ClCompile Include="src\Key\public_key.cpp" />
     <ClCompile Include="src\Key\private_key.cpp" />
+    <ClCompile Include="src\CryptoTypes.cpp" />
   </ItemGroup>
 </Project>

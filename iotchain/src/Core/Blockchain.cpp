@@ -1,12 +1,40 @@
 #include "Blockchain.h"
 #include <cassert>
 #include <iostream>
+#include "../Key/private_key.h"
+#include "../Key/public_key.h"
+#include <cryptopp\sha.h>
+#include <base58.h>
 
 using namespace chainthings;
 using namespace CryptoPP;
 	
 blockchain::blockchain()
 {
+	secp256k1_sign_start();
+
+	private_key priv_key("5J57kh1d9mvUo7bWxkLfRNsXZEYu2WnmKfazchyZH44xXdGmdNN");
+	public_key pub_key("1AYuVNdv2Uv75UB9uMYWvp8orkYhxdSw6s");
+
+	const byte msg[] = "Hello World!";
+
+	Crypto::Hash hash;
+	SHA256 sha256;
+	sha256.Update(msg, 13);
+	sha256.Final(hash.data());
+
+	Crypto::Signature sign;
+	priv_key.sign(hash, sign);
+
+	secp256k1_sign_stop();
+
+	std::string encoded_sign = base58_encode(sign.data(), sign.data() + sign.size());
+
+	secp256k1_verify_start();
+	bool verified = pub_key.verify(hash, sign);
+	secp256k1_verify_stop();
+
+	std::cout << "encoded sign: " << encoded_sign << " verified: " << verified << std::endl;
 
 }
 

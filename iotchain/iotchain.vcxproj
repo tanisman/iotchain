@@ -87,6 +87,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)external\secp256k1\include;$(SolutionDir)iotchain\include;$(SolutionDir)external\asio\include;$(SolutionDir)external\cryptopp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>$(SolutionDir)external\secp256k1\lib\$(Platform)\$(Configuration)\secp256k1.lib;$(SolutionDir)external\cryptopp\lib\$(Platform)\$(Configuration)\cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -113,6 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)external\secp256k1\include;$(SolutionDir)iotchain\include;$(SolutionDir)external\asio\include;$(SolutionDir)external\cryptopp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -189,6 +191,7 @@
     <ClInclude Include="src\Logging\spdlog\tweakme.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CryptoTypes.cpp" />
     <ClCompile Include="src\Key\private_key.cpp" />
     <ClCompile Include="src\Key\public_key.cpp" />
     <ClCompile Include="src\base58.cpp" />
