@@ -16,7 +16,8 @@ namespace CryptoPP
 _CHAIN_THINGS_BEGIN
 
 
-enum KeyType : uint8_t { account_public_key = 0, smart_contract_public_key = 87, account_private_key = 128 };
+enum KeyType : uint8_t { account_public_key = 0, smart_contract_public_key = 87, account_private_key = 128, smart_contract_private_key = 28 };
+enum KeyPairType : uint8_t { account_key, smart_contract_key };
 
 struct TXInput
 {
@@ -79,7 +80,7 @@ struct KeyPair : private std::pair<Crypto::SecretKey, Crypto::PublicKey>
 		this->second = pub;
 	}
 
-	KeyPair(KeyType type = account_public_key);
+	KeyPair(KeyPairType type = account_key);
 	
 	const Crypto::SecretKey secret_key() const
 	{

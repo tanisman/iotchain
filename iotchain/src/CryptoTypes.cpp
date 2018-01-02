@@ -60,5 +60,4 @@ uint32_t calculate_checksum(const std::vector<uint8_t>& vec, uint8_t c, uint8_t 
 	return calculate_checksum(hash160(vec, c), n);
 }
 
-
 NAMESPACE_END(Crypto)

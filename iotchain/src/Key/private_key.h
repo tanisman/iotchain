@@ -11,8 +11,14 @@ class private_key : public Crypto::SecretKey
 {
 public:
 	private_key(std::string key);
+	private_key(const Crypto::SecretKey& secret, KeyType type);
 	~private_key();
+	public_key create_public_key() const;
+	uint32_t calculate_checksum() const;
+	std::string encoded() const;
 	bool sign(const Crypto::Hash& hash, Crypto::Signature& sign);
+private:
+	KeyType key_type_;
 };
 
 void secp256k1_sign_start();

@@ -8,13 +8,15 @@
 
 using namespace chainthings;
 using namespace CryptoPP;
-	
+
 blockchain::blockchain()
 {
 	secp256k1_sign_start();
 
-	private_key priv_key("5J57kh1d9mvUo7bWxkLfRNsXZEYu2WnmKfazchyZH44xXdGmdNN");
-	public_key pub_key("1AYuVNdv2Uv75UB9uMYWvp8orkYhxdSw6s");
+	//KeyPair kp(account_key);
+
+	private_key priv_key("5K516qoV1JPMKv1Yq1NHJN2F3G62vQizdTtnJpY4NyMuUpnPKgY");
+	public_key pub_key("1AKUgr2RptqAXD1N1kwBm3vj2JoSya735g");
 
 	const byte msg[] = "Hello World!";
 
@@ -35,7 +37,6 @@ blockchain::blockchain()
 	secp256k1_verify_stop();
 
 	std::cout << "encoded sign: " << encoded_sign << " verified: " << verified << std::endl;
-
 }
 
 blockchain::~blockchain()

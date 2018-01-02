@@ -7,8 +7,13 @@ class public_key : public Crypto::PublicKey
 {
 public:
 	public_key(std::string key);
+	public_key(const Crypto::PublicKey& pubkey);
 	~public_key();
+	uint32_t checksum() const;
+	std::string encoded() const;
 	bool verify(const Crypto::Hash& hash, const Crypto::Signature& sign);
+private:
+	KeyType key_type_;
 };
 
 void secp256k1_verify_start();

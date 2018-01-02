@@ -17,12 +17,44 @@ public_key::public_key(std::string key)
 {
 	std::vector<uint8_t> pubkey;
 	base58_decode(key, pubkey);
+
+	if (pubkey[0] != account_public_key && pubkey[0] != smart_contract_public_key)
+	{
+		logger(log_level::critical) << "Given key is not a public key";
+		throw std::logic_error("Given key is not a public key");
+	}
+
+	uint32_t checksum = Crypto::calculate_checksum(pubkey.data() + 1, pubkey.size() - 5, pubkey[0]);
+	uint32_t expected_checksum = *reinterpret_cast<uint32_t*>(pubkey.data() + pubkey.size() - 4);
+
+	if (checksum != expected_checksum)
+	{
+		logger(log_level::critical) << "Invalid public key: Checksum mismatch";
+		throw std::runtime_error("Invalid public key: Checksum mismatch");
+	}
+
 	std::copy(std::begin(pubkey), std::end(pubkey), this->data());
+	key_type_ = static_cast<KeyType>(pubkey[0]);
 }
 
+public_key::public_key(const Crypto::PublicKey& pubkey)
+{
+	std::copy(pubkey.begin(), pubkey.end(), this->data());
+	key_type_ = static_cast<KeyType>(pubkey[0]);
+}
 
 public_key::~public_key()
 {
+}
+
+uint32_t public_key::checksum() const
+{
+	return *reinterpret_cast<const uint32_t *>(this->data() + 21);
+}
+
+std::string public_key::encoded() const
+{
+	return base58_encode(this->data(), this->data() + this->size());
 }
 
 bool public_key::verify(const Crypto::Hash& hash, const Crypto::Signature& sign)
@@ -36,13 +68,10 @@ bool public_key::verify(const Crypto::Hash& hash, const Crypto::Signature& sign)
 	secp256k1_pubkey pub_key;
 	int ret = secp256k1_ecdsa_recover(g_secp256k1_verify_context.second, &pub_key, &sig, hash.data());
 
-	std::reverse(std::begin(pub_key.data), std::begin(pub_key.data) + 32);
-	std::reverse(std::begin(pub_key.data) + 32, std::end(pub_key.data));
-
 	Crypto::Hash160 hash160 = Crypto::hash160(pub_key.data, sizeof(pub_key.data), g_network_id);
 
 	uint32_t checksum = Crypto::calculate_checksum(hash160, this->at(0));
-	uint32_t expected_checksum = *reinterpret_cast<uint32_t *>(this->data() + 21);
+	uint32_t expected_checksum = this->checksum();
 	
 	return
 		checksum == expected_checksum

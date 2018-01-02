@@ -2,9 +2,9 @@
 
 using namespace chainthings;
 
-std::shared_ptr<spdlog::logger> chainthings::g_console_logger = spdlog::stdout_color_mt("console_spdlog");
+std::shared_ptr<spdlog::logger> chainthings::g_console_logger = spdlog::stdout_color_mt("chainthings_stdout");
 #if defined (ENABLE_FILE_LOGGING)
-std::shared_ptr<spdlog::logger> chainthings::g_file_logger = spdlog::daily_logger_mt("daily_logger", "log.txt");
+std::shared_ptr<spdlog::logger> chainthings::g_file_logger = spdlog::daily_logger_mt("chainthings", "log.txt");
 #endif //ENABLE_FILE_LOGGING
 
 logger::logger(log_level lvl)
