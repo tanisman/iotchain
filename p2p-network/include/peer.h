@@ -15,6 +15,7 @@ class peer
 {
 public:
 	peer(asio::io_service& ios, tcp::socket&& socket);
+	void start();
 	void send(message& msg);
 	bool process_msg(message& msg);
 	const ::uuid& uuid() const noexcept;

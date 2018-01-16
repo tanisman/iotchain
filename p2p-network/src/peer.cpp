@@ -12,6 +12,11 @@ peer::peer(asio::io_service& ios, tcp::socket&& socket)
 	, sending_(false)
 {
 	peer_list::add_peer(shared_from_this());
+
+}
+
+void peer::start()
+{
 	do_read();
 }
 
