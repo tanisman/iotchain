@@ -35,6 +35,7 @@ bool protocol::receive(const void* buffer, size_t size, std::function<bool(std::
 			if (new_size == 0)
 			{
 				message msg(*header, nullptr);
+				msg.hop();
 				bool continue_parse = handler(std::error_code(detail::errc::success, detail::protocol_error_category()), &msg);
 				recv_current_size_ = 0;
 				if (!continue_parse)
@@ -56,6 +57,7 @@ bool protocol::receive(const void* buffer, size_t size, std::function<bool(std::
 		{
 			auto header = reinterpret_cast<message_header *>(receive_buffer_.data());
 			message msg(*header, receive_buffer_.data() + sizeof(message_header));
+			msg.hop();
 			bool continue_parse = handler(std::error_code(detail::errc::success, detail::protocol_error_category()), &msg);
 			recv_current_size_ = 0;
 			recv_total_size_ = sizeof(message_header);

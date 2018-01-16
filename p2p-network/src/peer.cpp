@@ -24,6 +24,8 @@ void peer::send(message& msg)
 
 void peer::do_read()
 {
+	assert(strand_.running_in_this_thread() && "peer::do_read called outside of the strand");
+
 	auto self(shared_from_this());
 	asio::async_read(socket_,
 		asio::buffer(recv_buffer_, sizeof(recv_buffer_)),
@@ -39,11 +41,8 @@ void peer::do_read()
 				{
 					if (process_msg(*msg))
 					{
-						msg->hop();
 						if (msg->header().ttl_ > 0)
-						{
 							peer_list::broadcast(msg, this);
-						}
 						return true;
 					}
 					return false;
@@ -58,6 +57,11 @@ void peer::do_read()
 
 void peer::do_write()
 {
+	assert(strand_.running_in_this_thread() && "peer::do_write called outside of the strand");
+
+	if (sending_)
+		return;
+
 	auto self(shared_from_this());
 	if (protocol_.has_packet())
 	{
@@ -70,12 +74,9 @@ void peer::do_write()
 		{
 			if (!ec)
 			{
+				sending_ = false;
 				if (protocol_.has_packet())
 					do_write();
-				else
-				{
-					sending_ = false;
-				}
 			}
 			else
 			{
