@@ -16,8 +16,6 @@ class peer
 public:
 	peer(asio::io_service& ios, tcp::socket&& socket);
 	void send(message& msg);
-	void do_read();
-	void do_write();
 	bool process_msg(message& msg);
 	const ::uuid& uuid() const noexcept;
 	template<typename CompletionHandler>
@@ -33,6 +31,9 @@ public:
 	}
 	~peer();
 private:
+	void do_read();
+	void do_write();
+
 	::uuid uuid_;
 	asio::io_service& io_service_;
 	asio::strand strand_;
