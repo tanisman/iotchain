@@ -4,8 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iotchain", "iotchain\iotchain.vcxproj", "{FCA0ECF7-8A12-4594-B2A7-006B5F519E43}"
+	ProjectSection(ProjectDependencies) = postProject
+		{925D14AE-2F21-4B0E-9350-784F8D374B97} = {925D14AE-2F21-4B0E-9350-784F8D374B97}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iotchain_tests", "iotchain_tests\iotchain_tests.vcxproj", "{42CF4ED9-0FBD-44FD-9B69-654FFBB9CD6B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{925D14AE-2F21-4B0E-9350-784F8D374B97} = {925D14AE-2F21-4B0E-9350-784F8D374B97}
+		{FCA0ECF7-8A12-4594-B2A7-006B5F519E43} = {FCA0ECF7-8A12-4594-B2A7-006B5F519E43}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "p2p-network", "p2p-network\p2p-network.vcxproj", "{925D14AE-2F21-4B0E-9350-784F8D374B97}"
 EndProject
