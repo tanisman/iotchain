@@ -52,17 +52,19 @@ void peer::do_read()
 			{
 				if (!pec && msg)	
 				{
-					if (process_msg(*msg))
-					{
-						if (msg->header().ttl_ > 0)
-							peer_list::broadcast(msg, this);
-						return true;
-					}
+					if (!process_msg(*msg))
+						return false;
+					if (msg->header().ttl_ > 0)
+						peer_list::broadcast(msg, this);
+				}
+				else
+				{
+					logger(log_level::err).format("peer::do_read: {}", pec.message());
 					return false;
 				}
 
-				logger(log_level::err).format("peer::do_read: {}", pec.message());
-				return false;
+				do_read();
+				return true;
 			});
 		}
 	}));
@@ -104,7 +106,12 @@ bool peer::process_msg(message& msg)
 {
 	auto& header = msg.header();
 #if defined(DEBUG_MSG)
-	logger(log_level::info).format("received message | size: {}, type: {}, ttl: {} |", header.size_, header.type_, header.ttl_);
+	logger(log_level::info).format(
+		"[peer: {}] received message | size: {}, type: {}, ttl: {} |", 
+		this->uuid_.stringfy(dashes), 
+		header.size_, 
+		header.type_, 
+		header.ttl_);
 #endif //DEBUG_MSG
 	switch (header.type_)
 	{
