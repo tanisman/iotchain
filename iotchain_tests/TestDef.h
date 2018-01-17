@@ -1,7 +1,7 @@
 #pragma once
 
-#define RUN_DEFAULT_TEST
-
+//#define RUN_DEFAULT_TEST
+#define RUN_P2P_TEST
 
 class test_case
 {

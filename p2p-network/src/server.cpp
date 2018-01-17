@@ -1,4 +1,5 @@
 #include "../include/server.h"
+#include "Logging/logger.h"
 #include <memory>
 
 using namespace chainthings::p2p;
@@ -9,6 +10,11 @@ server::server(asio::io_service& io_service, short port, size_t max_con)
 	, io_service_(io_service)
 	, max_connections_(max_con)
 
+{
+
+}
+
+void server::start()
 {
 	do_accept();
 }
@@ -32,10 +38,12 @@ void server::do_accept()
 						spt->connections_--;
 					}
 				})->start();
-				return;
 			}
-			asio::error_code ec2;
-			this->socket_.close(ec2);
+			else
+			{
+				asio::error_code ec2;
+				this->socket_.close(ec2);
+			}
 		}
 
 		do_accept();
@@ -44,5 +52,5 @@ void server::do_accept()
 
 server::~server()
 {
-
+	LOG_ERR("server::~server()");
 }

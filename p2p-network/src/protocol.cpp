@@ -4,8 +4,7 @@ using namespace chainthings::p2p;
 
 
 protocol::protocol()
-	: recv_current_size_(0)
-	, recv_total_size_(sizeof(message_header))
+	: recv_total_size_(sizeof(message_header))
 	, max_pkt_size_(1024 * 10)
 {
 
@@ -21,14 +20,12 @@ bool protocol::receive(const void* buffer, size_t size, std::function<bool(std::
 	while (ptr != end)
 	{
 		size_t available_bytes = end - ptr;
-		size_t remaining_bytes = recv_total_size_ - recv_current_size_;
+		size_t remaining_bytes = recv_total_size_ - receive_buffer_.size();
 		if (remaining_bytes > available_bytes)
 			remaining_bytes = available_bytes;
 
-		std::copy_n(ptr, remaining_bytes, receive_buffer_.data() + recv_current_size_);
-		recv_current_size_ += remaining_bytes;
-
-		if (recv_current_size_ == sizeof(message_header))
+		receive_buffer_.insert(receive_buffer_.end(), ptr, ptr + remaining_bytes);
+		if (receive_buffer_.size() == sizeof(message_header))
 		{
 			auto header = reinterpret_cast<message_header *>(receive_buffer_.data());
 			size_t new_size = header->size_;
@@ -37,7 +34,7 @@ bool protocol::receive(const void* buffer, size_t size, std::function<bool(std::
 				message msg(*header, nullptr);
 				msg.hop();
 				bool continue_parse = handler(std::error_code(detail::errc::success, detail::protocol_error_category()), &msg);
-				recv_current_size_ = 0;
+				receive_buffer_.clear();
 				if (!continue_parse)
 				{
 					return false;
@@ -53,13 +50,13 @@ bool protocol::receive(const void* buffer, size_t size, std::function<bool(std::
 				recv_total_size_ = new_size;
 			}
 		}
-		else if (recv_current_size_ == recv_total_size_)
+		else if (receive_buffer_.size() == recv_total_size_)
 		{
 			auto header = reinterpret_cast<message_header *>(receive_buffer_.data());
 			message msg(*header, receive_buffer_.data() + sizeof(message_header));
 			msg.hop();
 			bool continue_parse = handler(std::error_code(detail::errc::success, detail::protocol_error_category()), &msg);
-			recv_current_size_ = 0;
+			receive_buffer_.clear();
 			recv_total_size_ = sizeof(message_header);
 			if (!continue_parse)
 			{
@@ -94,5 +91,6 @@ std::vector<char> protocol::get_packet()
 	w.write(msg_header);
 	w.write(msg.data(), msg.size());
 
+	send_queue_.pop();
 	return w.vector();
 }

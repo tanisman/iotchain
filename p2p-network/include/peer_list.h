@@ -1,6 +1,7 @@
 #pragma once
 #include "p2p-internal.h"
 #include "message.h"
+#include "uuid.h"
 #include <list>
 #include <mutex>
 
@@ -13,7 +14,7 @@ class peer_list
 	using lock = std::lock_guard<std::mutex>;
 public:
 	static void add_peer(std::shared_ptr<peer> p);
-	static void remove_peer(std::shared_ptr<peer> p);
+	static void remove_peer(const uuid& id);
 	static void broadcast(message* msg, peer* p);
 	static std::list<std::weak_ptr<peer>> peers();
 	static std::size_t count();

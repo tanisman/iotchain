@@ -13,7 +13,14 @@ class server
 {
 public:
 	server(asio::io_service& io_service, short port, size_t max_con = 0);
+	server(const server& other) = delete;
+	void start();
 	~server();
+	template<typename... Args>
+	static std::shared_ptr<server> create(Args&&... args)
+	{
+		return std::shared_ptr<server>(new server(std::forward<Args>(args)...));
+	}
 private:
 	void do_accept();
 private:

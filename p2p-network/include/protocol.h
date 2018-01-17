@@ -19,7 +19,6 @@ public:
 	std::vector<char> get_packet();
 private:
 	std::vector<char> receive_buffer_;
-	size_t recv_current_size_;
 	size_t recv_total_size_;
 	size_t max_pkt_size_;
 	std::queue<message> send_queue_;

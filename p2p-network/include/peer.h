@@ -5,7 +5,6 @@
 #include "p2p-internal.h"
 #include "protocol.h"
 #include "uuid.h"
-#include "peer_list.h"
 
 using asio::ip::tcp;
 

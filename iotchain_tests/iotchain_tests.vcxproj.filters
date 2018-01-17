@@ -24,12 +24,18 @@
     <ClCompile Include="default_test.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="p2p_test.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestDef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="default_test.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="p2p_test.h">
       <Filter>Tests</Filter>
     </ClInclude>
   </ItemGroup>

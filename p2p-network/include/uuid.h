@@ -1,3 +1,4 @@
+#pragma once
 #include "p2p-internal.h"
 #ifdef WIN32
 #include <objbase.h>

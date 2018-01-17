@@ -12,14 +12,14 @@ void peer_list::add_peer(std::shared_ptr<peer> p)
 	list_.push_back(p);
 }
 
-void peer_list::remove_peer(std::shared_ptr<peer> p)
+void peer_list::remove_peer(const uuid& id)
 {
 	lock l(mutex_);
 	std::remove_if(list_.begin(), list_.end(),
-		[p](const std::weak_ptr<peer>& x)
+		[&id](const std::weak_ptr<peer>& x)
 	{
 		if (auto spt = x.lock())
-			return p->get_uuid() == spt->get_uuid();
+			return spt->get_uuid() == id;
 		return true;
 	});
 }

@@ -2,9 +2,9 @@
 
 using namespace chainthings::p2p;
 
-std::shared_ptr<spdlog::logger> chainthings::p2p::g_console_logger = spdlog::stdout_color_mt("p2p-network_stdout");
+std::shared_ptr<spdlog::logger> chainthings::p2p::g_console_logger = spdlog::stdout_color_mt("p2p-network");
 #if defined (ENABLE_FILE_LOGGING)
-std::shared_ptr<spdlog::logger> chainthings::p2p::g_file_logger = spdlog::daily_logger_mt("p2p-network", "network_log.txt");
+std::shared_ptr<spdlog::logger> chainthings::p2p::g_file_logger = spdlog::daily_logger_mt("network", "network_log.txt");
 #endif //ENABLE_FILE_LOGGING
 
 logger::logger(log_level lvl)

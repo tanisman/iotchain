@@ -1,4 +1,5 @@
 #include "../include/peer.h"
+#include "../include/peer_list.h"
 #include "Logging/logger.h"
 
 using namespace chainthings::p2p;
@@ -12,13 +13,12 @@ peer::peer(asio::io_service& ios, tcp::socket&& socket, std::function<void(peer*
 	, sending_(false)
 	, on_session_end_(std::move(session_end_event))
 {
-	peer_list::add_peer(shared_from_this());
-
 }
 
 void peer::start()
 {
 	auto self(shared_from_this());
+	peer_list::add_peer(self);
 	this->strand_.dispatch([this, self]
 	{
 		do_read();
@@ -40,8 +40,8 @@ void peer::do_read()
 	assert(strand_.running_in_this_thread() && "peer::do_read called outside of the strand");
 
 	auto self(shared_from_this());
-	asio::async_read(socket_,
-		asio::buffer(recv_buffer_, sizeof(recv_buffer_)),
+	socket_.async_read_some(
+		asio::buffer(recv_buffer_),
 		strand_.wrap(
 	[this, self](const asio::error_code& ec, size_t bytes_transferred)
 	{
@@ -50,7 +50,7 @@ void peer::do_read()
 			protocol_.receive(recv_buffer_, bytes_transferred,
 				[this, self](std::error_code pec, message *msg)
 			{
-				if (!pec && msg)
+				if (!pec && msg)	
 				{
 					if (process_msg(*msg))
 					{
@@ -61,7 +61,7 @@ void peer::do_read()
 					return false;
 				}
 
-				std::cout << "peer::do_read: error=" << pec.message() << std::endl;
+				logger(log_level::err).format("peer::do_read: {}", pec.message());
 				return false;
 			});
 		}
@@ -93,7 +93,7 @@ void peer::do_write()
 			}
 			else
 			{
-				std::cout << "peer::do_write: error=" << ec.message() << std::endl;
+				logger(log_level::err).format("peer::do_write: {}", ec.message());
 			}
 		}
 		));
@@ -125,6 +125,7 @@ const uuid& peer::get_uuid() const noexcept
 
 peer::~peer()
 {
+	LOG_INFO("peer::~peer");
 	on_session_end_(this);
-	peer_list::remove_peer(shared_from_this());
+	peer_list::remove_peer(this->uuid_);
 }
