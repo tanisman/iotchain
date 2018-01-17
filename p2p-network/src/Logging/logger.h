@@ -27,9 +27,9 @@ public:
 	template<typename... Args>
 	void format(const std::string& log, Args&&... args)
 	{
-		g_console_logger->log(this->log_lvl_, log, std::forward<Args>(args)...);
+		g_console_logger->log(this->log_lvl_, log.c_str(), std::forward<Args>(args)...);
 #if defined (ENABLE_FILE_LOGGING)
-		g_file_logger->log(this->log_lvl_, log, std::forward<Args>(args)...);
+		g_file_logger->log(this->log_lvl_, log.c_str(), std::forward<Args>(args)...);
 #endif //ENABLE_FILE_LOGGING
 	}
 	template<typename... Args>

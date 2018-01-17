@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <iostream>
+#include <functional>
 #include "p2p-internal.h"
 #include "protocol.h"
 #include "uuid.h"
@@ -14,11 +15,11 @@ class peer
 	: public std::enable_shared_from_this<peer>
 {
 public:
-	peer(asio::io_service& ios, tcp::socket&& socket);
+	peer(asio::io_service& ios, tcp::socket&& socket, std::function<void(peer*)>&& session_end_event = [](peer*) {});
 	void start();
 	void send(message& msg);
 	bool process_msg(message& msg);
-	const ::uuid& uuid() const noexcept;
+	const uuid& get_uuid() const noexcept;
 	template<typename CompletionHandler>
 	auto post(CompletionHandler&& handler)
 	{
@@ -35,7 +36,7 @@ private:
 	void do_read();
 	void do_write();
 
-	::uuid uuid_;
+	uuid uuid_;
 	asio::io_service& io_service_;
 	asio::strand strand_;
 	asio::io_service::work work_;
@@ -44,6 +45,7 @@ private:
 	char recv_buffer_[4096];
 	std::vector<char> send_buffer_;
 	bool sending_;
+	std::function<void(peer*)> on_session_end_;
 };
 
 _P2P_NAMESPACE_END

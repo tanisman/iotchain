@@ -19,7 +19,7 @@ void peer_list::remove_peer(std::shared_ptr<peer> p)
 		[p](const std::weak_ptr<peer>& x)
 	{
 		if (auto spt = x.lock())
-			return p->uuid() == spt->uuid();
+			return p->get_uuid() == spt->get_uuid();
 		return true;
 	});
 }
@@ -32,7 +32,7 @@ void peer_list::broadcast(message* msg, peer* p)
 	{
 		if (auto spt = x.lock())
 		{
-			if (p && p->uuid() != spt->uuid())
+			if (p && p->get_uuid() != spt->get_uuid())
 				spt->send(*msg);
 		}
 	});

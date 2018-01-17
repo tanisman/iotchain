@@ -90,6 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)external\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -108,6 +109,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)external\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -135,6 +137,7 @@
     <ClInclude Include="include\peer_list.h" />
     <ClInclude Include="include\protocol.h" />
     <ClInclude Include="include\peer.h" />
+    <ClInclude Include="include\server.h" />
     <ClInclude Include="include\uuid.h" />
     <ClInclude Include="src\Logging\logger.h" />
     <ClInclude Include="src\Logging\spdlog\async_logger.h" />
@@ -185,6 +188,7 @@
     <ClCompile Include="src\peer_list.cpp" />
     <ClCompile Include="src\protocol.cpp" />
     <ClCompile Include="src\message.cpp" />
+    <ClCompile Include="src\server.cpp" />
     <ClCompile Include="src\uuid.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

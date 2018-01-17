@@ -1,5 +1,6 @@
 #pragma once
 #include "p2p-internal.h"
+#include "message.h"
 #include <list>
 #include <mutex>
 

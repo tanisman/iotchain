@@ -3,7 +3,7 @@
 using namespace chainthings::p2p;
 
 
-message::message(uint8_t msg_type, uint8_t ttl = 45)
+message::message(uint8_t msg_type, uint8_t ttl)
 {
 	this->header_.type_ = msg_type;
 	this->header_.ttl_ = ttl;
@@ -11,7 +11,7 @@ message::message(uint8_t msg_type, uint8_t ttl = 45)
 
 message::message(const message_header& header, const char* buf)
 {
-	std::copy_n(&header, sizeof(message_header), this->header_);
+	this->header_ = header;
 	if (buf != nullptr && header.size_ > 0)
 		write(buf, header.size_);
 }

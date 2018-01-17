@@ -4,12 +4,13 @@
 using namespace chainthings::p2p;
 
 
-peer::peer(asio::io_service& ios, tcp::socket&& socket)
+peer::peer(asio::io_service& ios, tcp::socket&& socket, std::function<void(peer*)>&& session_end_event)
 	: io_service_(ios)
 	, strand_(ios)
 	, work_(ios)
 	, socket_(std::move(socket))
 	, sending_(false)
+	, on_session_end_(std::move(session_end_event))
 {
 	peer_list::add_peer(shared_from_this());
 
@@ -110,12 +111,13 @@ bool peer::process_msg(message& msg)
 	return true;
 }
 
-const ::uuid& peer::uuid() const noexcept
+const uuid& peer::get_uuid() const noexcept
 {
 	return uuid_;
 }
 
 peer::~peer()
 {
+	on_session_end_(this);
 	peer_list::remove_peer(shared_from_this());
 }
