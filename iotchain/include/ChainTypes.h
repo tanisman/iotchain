@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CHAIN_TYPES_H
+#define CHAIN_TYPES_H
 
 #define _CHAIN_THINGS_BEGIN		namespace chainthings {
 #define _CHAIN_THINGS_END		}
@@ -96,3 +97,5 @@ struct KeyPair : private std::pair<Crypto::SecretKey, Crypto::PublicKey>
 extern uint8_t g_network_id;
 
 _CHAIN_THINGS_END
+
+#endif //CHAIN_TYPES_H

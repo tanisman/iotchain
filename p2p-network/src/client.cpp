@@ -36,5 +36,5 @@ void client::do_connect()
 
 client::~client()
 {
-	LOG_INFO("client::~client");
+	LOG_DEBUG("client::~client");
 }

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PEER_LIST_H
+#define PEER_LIST_H
+
 #include "p2p-internal.h"
 #include "message.h"
 #include "uuid.h"
@@ -40,3 +42,5 @@ private:
 };
 
 _P2P_NAMESPACE_END
+
+#endif //PEER_LIST_H

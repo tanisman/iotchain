@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PROTOCOL_H
+#define PROTOCOL_H
+
 #include <system_error>
 #include <vector>
 #include <queue>
@@ -57,3 +59,5 @@ namespace detail
 
 
 _P2P_NAMESPACE_END
+
+#endif //PROTOCOL_H

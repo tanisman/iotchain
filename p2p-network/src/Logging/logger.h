@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LOGGER_H
+#define LOGGER_H
+
 
 #include "../Logging/spdlog/spdlog.h"
 #include "../../include/p2p-internal.h"
@@ -47,3 +49,5 @@ extern std::shared_ptr<spdlog::logger> g_file_logger;
 #endif //ENABLE_FILE_LOGGING
 
 _P2P_NAMESPACE_END
+
+#endif //LOGGER_H

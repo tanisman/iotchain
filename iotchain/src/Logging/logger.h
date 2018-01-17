@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LOGGER_H
+#define LOGGER_H
 
 #include "../Logging/spdlog/spdlog.h"
 #include "ChainTypes.h"
@@ -47,3 +48,5 @@ extern std::shared_ptr<spdlog::logger> g_file_logger;
 #endif //ENABLE_FILE_LOGGING
 
 _CHAIN_THINGS_END
+
+#endif //LOGGER_H

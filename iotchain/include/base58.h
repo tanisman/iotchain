@@ -3,7 +3,9 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#pragma once
+#ifndef BASE_58_H
+#define BASE_58_H
+
 #include <string>
 #include <vector>
 #include <ChainTypes.h>
@@ -38,3 +40,5 @@ bool base58_decode(const std::string& str, std::vector<unsigned char>& vchRet);
 
 
 _CHAIN_THINGS_END
+
+#endif //BASE_58_H

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CLIENT_H
+#define CLIENT_H
+
 #include "p2p-internal.h"
 #include "peer.h"
 
@@ -27,3 +29,5 @@ private:
 };
 
 _P2P_NAMESPACE_END
+
+#endif //CLIENT_H

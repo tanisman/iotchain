@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TEST_DEF_H
+#define TEST_DEF_H
 
 //#define RUN_DEFAULT_TEST
 #define RUN_P2P_TEST
@@ -20,3 +21,5 @@ protected:
 	char **m_arg_values;
 	std::string m_test_name;
 };
+
+#endif //TEST_DEF_H

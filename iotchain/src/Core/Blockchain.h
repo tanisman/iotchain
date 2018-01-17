@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BLOCKCHAIN_H
+#define BLOCKCHAIN_H
+
 #include <list>
 #include <ChainTypes.h>
 
@@ -24,3 +26,4 @@ private:
 
 _CHAIN_THINGS_END
 
+#endif //BLOCKCHAIN_H

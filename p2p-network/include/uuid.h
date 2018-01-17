@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CUST_UUID_H
+#define CUST_UUID_H
+
 #include "p2p-internal.h"
 #ifdef WIN32
 #include <objbase.h>
@@ -31,3 +33,5 @@ private:
 };
 
 _P2P_NAMESPACE_END
+
+#endif //CUST_UUID_H

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CRYPTO_TYPES_H
+#define CRYPTO_TYPES_H
+
 #define NAMESPACE_BEGIN(x) namespace x {
 #define NAMESPACE_END(x) }
 #include <cstdint>
@@ -29,3 +31,5 @@ uint32_t calculate_checksum(const std::vector<uint8_t>& vec, uint8_t c, uint8_t 
 
 
 NAMESPACE_END(Crypto)
+
+#endif //CRYPTO_TYPES_H

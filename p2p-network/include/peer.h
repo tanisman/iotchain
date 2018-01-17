@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PEER_H
+#define PEER_H
+
 #include <memory>
 #include <iostream>
 #include <functional>
@@ -48,3 +50,5 @@ private:
 };
 
 _P2P_NAMESPACE_END
+
+#endif //PEER_H

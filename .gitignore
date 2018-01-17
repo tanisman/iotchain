@@ -245,7 +245,7 @@ ModelManifest.xml
 .fake/
 
 # logs
-*log_*
+*log_*.txt
 
 # private keys
 1*_private.txt

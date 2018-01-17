@@ -1,10 +1,13 @@
-#pragma once
+#ifndef PRIVATE_KEY_H
+#define PRIVATE_KEY_H
+
 #include <ChainThings.h>
 #include <secp256k1.h>
 #include <secp256k1_recovery.h>
 #include <string>
 
 #include "public_key.h"
+
 _CHAIN_THINGS_BEGIN
 
 class private_key : public Crypto::SecretKey
@@ -28,3 +31,4 @@ extern secp256k1_context* g_secp256k1_sign_context;
 
 _CHAIN_THINGS_END
 
+#endif //PRIVATE_KEY_H

@@ -132,7 +132,7 @@ const uuid& peer::get_uuid() const noexcept
 
 peer::~peer()
 {
-	LOG_INFO("peer::~peer");
+	LOG_DEBUG("peer::~peer");
 	on_session_end_(this);
 	peer_list::remove_peer(this->uuid_);
 }

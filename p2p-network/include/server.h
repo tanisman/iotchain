@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SERVER_H
+#define SERVER_H
+
 #include <atomic>
 #include "p2p-internal.h"
 #include "peer.h"
@@ -32,3 +34,5 @@ private:
 };
 
 _P2P_NAMESPACE_END
+
+#endif //SERVER_H

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BLOCK_CONTAINER
+#define BLOCK_CONTAINER
 
 #include <ChainTypes.h>
 #include <list>
@@ -21,3 +22,4 @@ private:
 
 _CHAIN_THINGS_END
 
+#endif //BLOCK_CONTAINER

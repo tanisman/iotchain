@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MESSAGE_H
+#define MESSAGE_H
+
 #include <cstdint>
 #include "buffer_stream.hpp"
 #include "p2p-internal.h"
@@ -57,3 +59,5 @@ private:
 };
 
 _P2P_NAMESPACE_END
+
+#endif //MESSAGE_H
