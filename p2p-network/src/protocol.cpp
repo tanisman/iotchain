@@ -72,7 +72,7 @@ bool protocol::receive(const void* buffer, size_t size, std::function<bool(std::
 	return true;
 }
 
-void protocol::send(message& msg)
+void protocol::send(const message& msg)
 {
 	if (msg.size() > max_pkt_size_)
 		throw std::runtime_error("msg is too big to send");

@@ -18,14 +18,21 @@ peer::peer(asio::io_service& ios, tcp::socket&& socket, std::function<void(peer*
 
 void peer::start()
 {
-	do_read();
+	auto self(shared_from_this());
+	this->strand_.dispatch([this, self]
+	{
+		do_read();
+	});
 }
 
 void peer::send(message& msg)
 {
-	assert(strand_.running_in_this_thread() && "peer::send called outside of the strand");
-	protocol_.send(msg);
-	do_write();
+	auto self(shared_from_this());
+	this->strand_.dispatch([this, self, cmsg = msg]()
+	{
+		this->protocol_.send(cmsg);
+		do_write();
+	});
 }
 
 void peer::do_read()

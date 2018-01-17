@@ -14,7 +14,7 @@ public:
 	protocol();
 	~protocol();
 	bool receive(const void* buffer, size_t size, std::function<bool(std::error_code, message*)>&& handler);
-	void send(message& msg);
+	void send(const message& msg);
 	bool has_packet() const noexcept;
 	std::vector<char> get_packet();
 private:

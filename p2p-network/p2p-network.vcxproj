@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\buffer_stream.hpp" />
+    <ClInclude Include="include\client.h" />
     <ClInclude Include="include\p2p-internal.h" />
     <ClInclude Include="include\message.h" />
     <ClInclude Include="include\peer_list.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="src\Logging\spdlog\tweakme.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\client.cpp" />
     <ClCompile Include="src\Logging\logger.cpp" />
     <ClCompile Include="src\Logging\spdlog\fmt\bundled\format.cc" />
     <ClCompile Include="src\Logging\spdlog\fmt\bundled\ostream.cc" />
