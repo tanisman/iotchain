@@ -14,7 +14,7 @@ p2p_test::p2p_test(int argc, char **argv)
 bool p2p_test::execute()
 {
 	asio::io_service ios;
-	p2p::server::create(ios, 7777, 5)->start();
+	p2p::server<p2p::peer>::create(ios, 7777, 5)->start();
 	p2p::client::create(ios, "127.0.0.1", 7777)->start();
 	p2p::client::create(ios, "127.0.0.1", 7777)->start();
 	p2p::client::create(ios, "127.0.0.1", 7777)->start();

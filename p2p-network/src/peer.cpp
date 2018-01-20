@@ -86,18 +86,18 @@ void peer::do_write()
 			asio::buffer(send_buffer_.data(), send_buffer_.size()),
 			strand_.wrap(
 				[this, self](const asio::error_code& ec, size_t bytes_transferred)
-		{
-			if (!ec)
-			{
-				sending_ = false;
-				if (protocol_.has_packet())
-					do_write();
-			}
-			else
-			{
-				logger(log_level::err).format("peer::do_write: {}", ec.message());
-			}
-		}
+				{
+					if (!ec)
+					{
+						sending_ = false;
+						if (protocol_.has_packet())
+							do_write();
+					}
+					else
+					{
+						logger(log_level::err).format("peer::do_write: {}", ec.message());
+					}
+				}
 		));
 	}
 }
