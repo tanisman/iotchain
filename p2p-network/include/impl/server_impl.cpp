@@ -9,7 +9,7 @@ server_impl::server_impl(asio::io_service& io_service, short port, size_t max_co
 	, socket_(io_service)
 	, io_service_(io_service)
 	, max_connections_(max_con)
-
+	, connections_(0)
 {
 
 }

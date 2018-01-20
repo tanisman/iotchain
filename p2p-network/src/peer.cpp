@@ -67,6 +67,11 @@ void peer::do_read()
 				return true;
 			});
 		}
+		else
+		{
+			if (ec)
+				logger(log_level::err).format("peer::do_read: {}", ec.message());
+		}
 	}));
 }
 
