@@ -162,6 +162,9 @@
     <ClInclude Include="include\impl\server_impl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\impl\client_impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\message.cpp">
@@ -194,10 +197,10 @@
     <ClCompile Include="src\Logging\spdlog\fmt\bundled\printf.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\client.cpp">
+    <ClCompile Include="include\impl\server_impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\impl\server_impl.cpp">
+    <ClCompile Include="include\impl\client_impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

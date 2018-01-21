@@ -2,6 +2,7 @@
 
 using namespace chainthings;
 
+bool chainthings::g_logger_initialized = false;
 std::shared_ptr<spdlog::logger> chainthings::g_console_logger = spdlog::stdout_color_mt("chainthings_stdout");
 #if defined (ENABLE_FILE_LOGGING)
 std::shared_ptr<spdlog::logger> chainthings::g_file_logger = spdlog::daily_logger_mt("chainthings", "log.txt");
@@ -10,6 +11,13 @@ std::shared_ptr<spdlog::logger> chainthings::g_file_logger = spdlog::daily_logge
 logger::logger(log_level lvl)
 	: log_lvl_(lvl)
 {
+	if (!g_logger_initialized)
+	{
+		g_logger_initialized = true;
+		spdlog::set_async_mode(8192, spdlog::async_overflow_policy::block_retry,
+			nullptr,
+			std::chrono::seconds(2));
+	}
 	spdlog::set_level(LOG_LEVEL);
 }
 

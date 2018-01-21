@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\impl\client_impl.h" />
     <ClInclude Include="include\buffer_stream.hpp" />
     <ClInclude Include="include\client.h" />
     <ClInclude Include="include\impl\server_impl.h" />
@@ -188,8 +189,8 @@
     <ClInclude Include="src\Logging\spdlog\tweakme.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\impl\client_impl.cpp" />
     <ClCompile Include="include\impl\server_impl.cpp" />
-    <ClCompile Include="src\client.cpp" />
     <ClCompile Include="src\Logging\logger.cpp" />
     <ClCompile Include="src\Logging\spdlog\fmt\bundled\format.cc" />
     <ClCompile Include="src\Logging\spdlog\fmt\bundled\ostream.cc" />

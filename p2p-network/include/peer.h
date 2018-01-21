@@ -19,7 +19,7 @@ public:
 	peer(asio::io_service& ios, tcp::socket&& socket, std::function<void(peer*)>&& session_end_event = [](peer*) {});
 	void start();
 	void send(message& msg);
-	bool process_msg(message& msg);
+	virtual bool process_msg(message& msg);
 	const uuid& get_uuid() const noexcept;
 	template<typename CompletionHandler>
 	auto post(CompletionHandler&& handler)

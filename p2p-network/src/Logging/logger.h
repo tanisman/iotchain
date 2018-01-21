@@ -43,6 +43,7 @@ private:
 	log_level log_lvl_;
 };
 
+extern bool g_logger_initialized;
 extern std::shared_ptr<spdlog::logger> g_console_logger;
 #if defined (ENABLE_FILE_LOGGING)
 extern std::shared_ptr<spdlog::logger> g_file_logger;

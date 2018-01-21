@@ -2,6 +2,7 @@
 
 using namespace chainthings::p2p;
 
+bool chainthings::p2p::g_logger_initialized = false;
 std::shared_ptr<spdlog::logger> chainthings::p2p::g_console_logger = spdlog::stdout_color_mt("p2p-network");
 #if defined (ENABLE_FILE_LOGGING)
 std::shared_ptr<spdlog::logger> chainthings::p2p::g_file_logger = spdlog::daily_logger_mt("network", "network_log.txt");
@@ -10,6 +11,13 @@ std::shared_ptr<spdlog::logger> chainthings::p2p::g_file_logger = spdlog::daily_
 logger::logger(log_level lvl)
 	: log_lvl_(lvl)
 {
+	if (!g_logger_initialized)
+	{
+		g_logger_initialized = true;
+		spdlog::set_async_mode(8192, spdlog::async_overflow_policy::block_retry,
+			nullptr,
+			std::chrono::seconds(2));
+	}
 	spdlog::set_level(LOG_LEVEL);
 }
 

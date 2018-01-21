@@ -52,8 +52,26 @@ void peer::do_read()
 			{
 				if (!pec && msg)	
 				{
-					if (!process_msg(*msg))
-						return false;
+					switch (msg->header().type_)
+					{
+					case MSG_TYPE_PING:
+					{
+						logger(log_level::info).format("pinged by {}, sending pong...", this->get_uuid().stringfy(dashes));
+						message response(MSG_TYPE_PONG, 1);
+						send(response);
+					}
+					break;
+					case MSG_TYPE_PONG:
+					{
+						logger(log_level::info).format("got pong from {}", this->get_uuid().stringfy(dashes));
+					}
+					break;
+					default:
+					{
+						if (!process_msg(*msg))
+							return false;
+					}
+					}
 					if (msg->header().ttl_ > 0)
 						peer_list::broadcast(msg, this);
 				}
@@ -118,15 +136,6 @@ bool peer::process_msg(message& msg)
 		header.type_, 
 		header.ttl_);
 #endif //DEBUG_MSG
-	switch (header.type_)
-	{
-	case MSG_TYPE_PING:
-	{
-		message response(MSG_TYPE_PONG, 1);
-		send(response);
-	}
-	break;
-	}
 	return true;
 }
 
