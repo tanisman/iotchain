@@ -26,15 +26,26 @@ public:
 		lock l(mutex_);
 		auto it = std::find_if(list_.begin(), list_.end(), 
 			[&pred](const std::weak_ptr<peer>& p)
-		{
-			if (auto spt = p.lock())
-				return pred(spt.get());
-			return false;
-		});
+			{
+				if (auto spt = p.lock())
+					return pred(spt.get());
+				return false;
+			});
 
 		if (it == list_.end())
 			return nullptr;
 		return *it;
+	}
+	template<typename T>
+	static void for_each(T func)
+	{
+		lock l(mutex_);
+		std::for_each(list_.begin(), list_.end(), 
+			[&func](const std::weak_ptr<peer>& p)
+			{
+				if (auto spt = p.lock())
+					func(spt.get());
+			});
 	}
 private:
 	static std::mutex mutex_;

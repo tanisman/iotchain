@@ -31,13 +31,13 @@ TXHash::TXHash(const TX& tx)
 	for (const TXOutput& output : tx.outputs_)
 	{
 		sha256.Update(reinterpret_cast<const byte*>(&output.amount_), sizeof(output.amount_));
-		sha256.Update(output.key_.data(), output.key_.size());
+		sha256.Update(output.to_.data(), output.to_.size());
 	}
 
 	sha256.Update(tx.extra_.data(), tx.extra_.size()); //TXPrefix::extra_
 
 	sha256.Update(tx.from_.data(), tx.from_.size()); //TX::from_
-	sha256.Update(tx.to_.data(), tx.to_.size()); //TX::to_
+	sha256.Update(tx.signature_.data(), tx.signature_.size()); //TX::signature_
 
 	sha256.Final(digest);
 }
@@ -56,13 +56,13 @@ TXHash::TXHash(const TX& tx, CryptoPP::SHA256& sha256)
 	for (const TXOutput& output : tx.outputs_)
 	{
 		sha256.Update(reinterpret_cast<const byte*>(&output.amount_), sizeof(output.amount_));
-		sha256.Update(output.key_.data(), output.key_.size());
+		sha256.Update(output.to_.data(), output.to_.size());
 	}
 
 	sha256.Update(tx.extra_.data(), tx.extra_.size()); //TXPrefix::extra_
 
 	sha256.Update(tx.from_.data(), tx.from_.size()); //TX::from_
-	sha256.Update(tx.to_.data(), tx.to_.size()); //TX::to_
+	sha256.Update(tx.signature_.data(), tx.signature_.size()); //TX::signature_
 }
 
 BlockHash::BlockHash(const Block& bl)

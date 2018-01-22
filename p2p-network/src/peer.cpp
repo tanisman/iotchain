@@ -19,83 +19,110 @@ void peer::start()
 {
 	auto self(shared_from_this());
 	peer_list::add_peer(self);
-	this->strand_.dispatch([this, self]
-	{
-		do_read();
-	});
+	this->strand_.dispatch(
+		[this, self]
+		{
+			do_read();
+		});
 }
 
 void peer::send(message& msg)
 {
 	auto self(shared_from_this());
-	this->strand_.dispatch([this, self, cmsg = msg]()
-	{
-		this->protocol_.send(cmsg);
-		do_write();
-	});
+	this->strand_.dispatch(
+		[this, self, cmsg = msg]()
+		{
+			this->protocol_.send(cmsg);
+			do_write();
+		});
 }
 
 void peer::do_read()
 {
-	assert(strand_.running_in_this_thread() && "peer::do_read called outside of the strand");
+	assert(strand_.running_in_this_thread() 
+		&& "peer::do_read called outside of the strand");
 
 	auto self(shared_from_this());
 	socket_.async_read_some(
 		asio::buffer(recv_buffer_),
 		strand_.wrap(
-	[this, self](const asio::error_code& ec, size_t bytes_transferred)
-	{
-		if (!ec && bytes_transferred > 0)
+		[this, self](const asio::error_code& ec, size_t bytes_transferred)
 		{
-			protocol_.receive(recv_buffer_, bytes_transferred,
-				[this, self](std::error_code pec, message *msg)
+			if (!ec && bytes_transferred > 0)
 			{
-				if (!pec && msg)	
+				try
 				{
-					switch (msg->header().type_)
+					protocol_.receive(recv_buffer_, bytes_transferred,
+						[this, self](std::error_code pec, message *msg)
 					{
-					case MSG_TYPE_PING:
-					{
-						logger(log_level::info).format("pinged by {}, sending pong...", this->get_uuid().stringfy(dashes));
-						message response(MSG_TYPE_PONG, 1);
-						send(response);
-					}
-					break;
-					case MSG_TYPE_PONG:
-					{
-						logger(log_level::info).format("got pong from {}", this->get_uuid().stringfy(dashes));
-					}
-					break;
-					default:
-					{
-						if (!process_msg(*msg))
-							return false;
-					}
-					}
-					if (msg->header().ttl_ > 0)
-						peer_list::broadcast(msg, this);
-				}
-				else
-				{
-					logger(log_level::err).format("peer::do_read: {}", pec.message());
-					return false;
-				}
+						if (!pec && msg)
+						{
+							switch (msg->header().type_)
+							{
+							case MSG_TYPE_PING:
+							{
+								logger(log_level::info).format(
+									"pinged by {}, sending pong...",
+									this->get_uuid().stringfy(dashes));
 
-				do_read();
-				return true;
-			});
-		}
-		else
-		{
-			if (ec)
-				logger(log_level::err).format("peer::do_read: {}", ec.message());
-		}
-	}));
+								message response(MSG_TYPE_PONG, 1);
+								send(response);
+							}
+							break;
+							case MSG_TYPE_PONG:
+							{
+								logger(log_level::info).format(
+									"got pong from {}",
+									this->get_uuid().stringfy(dashes));
+							}
+							break;
+							default:
+							{
+								if (!process_msg(*msg))
+									return false;
+							}
+							}
+							if (msg->header().ttl_ > 0)
+								peer_list::broadcast(msg, this);
+						}
+						else
+						{
+							if (!pec)
+								logger(log_level::err).format(
+									"peer::do_read: {}",
+									pec.message());
+							return false;
+						}
+
+						do_read();
+						return true;
+					});
+				}
+				catch (const std::exception& ex)
+				{
+					logger(log_level::err).format(
+						"peer::do_read: {}",
+						ex.what());
+				}
+				catch (...)
+				{
+					logger(log_level::err) << "peer::do_read: unknown exception";
+				}
+			}
+			else
+			{
+				if (ec)
+					logger(log_level::err).format(
+						"peer::do_read: {}", 
+						ec.message());
+			}
+		}));
 }
 
 void peer::do_write()
 {
-	assert(strand_.running_in_this_thread() && "peer::do_write called outside of the strand");
+	assert(strand_.running_in_this_thread() 
+		&& "peer::do_write called outside of the strand");
 
 	if (sending_)
 		return;
@@ -146,7 +173,9 @@ const uuid& peer::get_uuid() const noexcept
 
 peer::~peer()
 {
-	LOG_DEBUG("peer::~peer");
+	logger(log_level::warn).format(
+		"lost peer {}", 
+		this->get_uuid().stringfy(uuid_format(dashes | braces)));
 	on_session_end_(this);
 	peer_list::remove_peer(this->uuid_);
 }

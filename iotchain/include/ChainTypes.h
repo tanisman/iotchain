@@ -30,7 +30,7 @@ struct TXInput
 struct TXOutput
 {
 	uint64_t amount_;
-	Crypto::PublicKey key_;
+	Crypto::PublicKey to_;
 };
 
 struct TXPrefix
@@ -44,7 +44,7 @@ struct TXPrefix
 struct TX : public TXPrefix
 {
 	Crypto::PublicKey from_;
-	Crypto::PublicKey to_;
+	Crypto::Signature signature_;
 };
 
 struct BlockHeader
