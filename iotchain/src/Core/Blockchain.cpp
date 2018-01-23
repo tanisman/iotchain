@@ -3,7 +3,7 @@
 #include <iostream>
 #include "../Key/private_key.h"
 #include "../Key/public_key.h"
-#include <cryptopp\sha.h>
+#include <cryptopp/sha.h>
 #include <base58.h>
 
 using namespace chainthings;
