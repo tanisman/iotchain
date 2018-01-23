@@ -111,6 +111,11 @@ ADD_LIBRARY (p2p-network
 ADD_LIBRARY (iotchain
 	STATIC
 	${IOTCHAIN_SOURCES})
+	
+IF (UNIX)
+	TARGET_LINK_LIBRARIES(p2p-network -static-libgcc -static-libstdc++)
+	TARGET_LINK_LIBRARIES(iotchain -static-libgcc -static-libstdc++)
+ENDIF ()
 
 TARGET_LINK_LIBRARIES (iotchain p2p-network)
 TARGET_LINK_LIBRARIES (iotchain debug ${SECP256K1_LIB_DBG} optimized ${SECP256K1_LIB_REL})
@@ -120,6 +125,10 @@ ADD_EXECUTABLE(iotchain_tests
 	iotchain_tests/main.cpp
 	iotchain_tests/default_test.cpp
 	iotchain_tests/p2p_test.cpp)
+	
+IF (UNIX)
+	TARGET_LINK_LIBRARIES(iotchain_tests -static-libgcc -static-libstdc++)
+ENDIF ()
 	
 TARGET_LINK_LIBRARIES (iotchain_tests iotchain p2p-network)
 TARGET_LINK_LIBRARIES (iotchain_tests debug ${SECP256K1_LIB_DBG} optimized ${SECP256K1_LIB_REL})
