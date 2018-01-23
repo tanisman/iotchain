@@ -1,5 +1,6 @@
 #include "block_container.h"
 #include <ctime>
+#include <cstring>
 
 using namespace chainthings;
 
