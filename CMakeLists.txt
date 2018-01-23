@@ -39,8 +39,10 @@ IF (UNIX)
 	MESSAGE ( "searching for libraries" )
 	FIND_LIBRARY (SECP256K1_LIB_DBG NAMES libsecp256k1.a)
 	FIND_LIBRARY (CRYPTOPP_LIB_DBG NAMES libcryptopp.a)
+	FIND_LIBRARY (LIB_UUID NAMES libuuid.a)
 	SET (SECP256K1_LIB_REL ${SECP256K1_LIB_DBG})
 	SET (CRYPTOPP_LIB_REL ${CRYPTOPP_LIB_DBG})
+	MESSAGE (STATUS "uuid lib: ${LIB_UUID}")
 ELSE (UNIX)
 	IF ( EX_PLATFORM EQUAL 64 )		#if 64 bit compiling
 		SET (SECP256K1_LIB_DBG ${EXTERNAL_DIR}/secp256k1/lib/x64/Debug/secp256k1.lib)
@@ -116,6 +118,8 @@ ADD_LIBRARY (iotchain
 IF (UNIX)
 	TARGET_LINK_LIBRARIES(p2p-network -static-libgcc -static-libstdc++ -pthread)
 	TARGET_LINK_LIBRARIES(iotchain -static-libgcc -static-libstdc++ -pthread)
+	TARGET_LINK_LIBRARIES(p2p-network ${LIB_UUID})
+	TARGET_LINK_LIBRARIES(iotchain ${LIB_UUID})
 ENDIF ()
 
 TARGET_LINK_LIBRARIES (iotchain p2p-network)
@@ -129,6 +133,7 @@ ADD_EXECUTABLE(iotchain_tests
 	
 IF (UNIX)
 	TARGET_LINK_LIBRARIES(iotchain_tests -static-libgcc -static-libstdc++ -pthread)
+	TARGET_LINK_LIBRARIES(iotchain_tests ${LIB_UUID})
 ENDIF ()
 	
 TARGET_LINK_LIBRARIES (iotchain_tests iotchain p2p-network)
