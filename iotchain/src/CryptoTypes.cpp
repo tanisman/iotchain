@@ -1,5 +1,5 @@
-#include <cryptopp\sha.h>
-#include <cryptopp\ripemd.h>
+#include <cryptopp/sha.h>
+#include <cryptopp/ripemd.h>
 #include <CryptoTypes.h>
 #include <ChainTypes.h>
 

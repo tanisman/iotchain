@@ -1,8 +1,8 @@
 #include "ChainTypes.h"
-#include <cryptopp\sha.h>
-#include <cryptopp\eccrypto.h>
-#include <cryptopp\osrng.h>
-#include <cryptopp\oids.h>
+#include <cryptopp/sha.h>
+#include <cryptopp/eccrypto.h>
+#include <cryptopp/osrng.h>
+#include <cryptopp/oids.h>
 #include <base58.h>
 #include <cassert>
 #include <fstream>

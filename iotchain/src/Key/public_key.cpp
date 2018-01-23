@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <secp256k1.h>
 #include <secp256k1_recovery.h>
-#include <cryptopp\sha.h>
-#include <cryptopp\ripemd.h>
+#include <cryptopp/sha.h>
+#include <cryptopp/ripemd.h>
 #include <base58.h>
 #include "private_key.h"
 #include "public_key.h"
