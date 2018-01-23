@@ -2,6 +2,7 @@
 #define PUBLIC_KEY_H
 
 #include <ChainTypes.h>
+#include <secp256k1.h>
 
 _CHAIN_THINGS_BEGIN
 

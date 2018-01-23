@@ -73,15 +73,13 @@ bool blockchain::init(const std::string& folder)
 		{
 			KeyPair kp;
 			tx.from_ = { 0 };
-			tx.to_ = kp.public_key();
 			tx.time_ = std::time(nullptr);
 			tx.inputs_.push_back(TXInput{ 0, 123456789 });
-			tx.outputs_.push_back(TXOutput{ 123456789, tx.to_ });
+			tx.outputs_.push_back(TXOutput{ 123456789, kp.public_key() });
 		}
 		else
 		{
 			tx.from_ = { 0 };
-			tx.to_ = { 0 };
 			tx.time_ = std::time(nullptr);
 			tx.inputs_.push_back(TXInput{ 0, 0 });
 			tx.outputs_.push_back(TXOutput{ 0,{ 0 } });

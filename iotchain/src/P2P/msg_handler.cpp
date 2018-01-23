@@ -78,5 +78,16 @@ DECL_FN_MSG_HANDLER(OnNewTransaction)
 
 DECL_FN_MSG_HANDLER(OnNewBlock)
 {
+	Block bl;
+	bl.nonce_ = msg.read<uint32_t>();
+	bl.timestamp_ = msg.read<uint64_t>();
+	msg.read(bl.prev_block_hash_.data(), bl.prev_block_hash_.size());
+	bl.base_tx_ = read_tx(msg);
+	auto tx_size = msg.read<uint32_t>();
+	bl.tx_list_.resize(tx_size);
+	for (int i = 0; i < tx_size; i++)
+		bl.tx_list_.push_back(read_tx(msg));
+
+	//TO DO: verify block
 	return true;
 }
