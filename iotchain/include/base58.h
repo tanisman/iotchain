@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <ChainTypes.h>
+#include <cstring>
 
 _CHAIN_THINGS_BEGIN
 
