@@ -63,6 +63,15 @@ INCLUDE_DIRECTORIES (${EXTERNAL_DIR}/secp256k1/include)
 INCLUDE_DIRECTORIES (${EXTERNAL_DIR}/cryptopp/include)
 INCLUDE_DIRECTORIES (${EXTERNAL_DIR}/asio/include)
 
+MESSAGE (STATUS "INCLUDE DIRECTORIES:")
+MESSAGE (STATUS "${BLOCKCHAIN_DIR}/include")
+MESSAGE (STATUS "${P2P_DIR}/include")
+MESSAGE (STATUS "${EXTERNAL_DIR}/secp256k1/include")
+MESSAGE (STATUS "${EXTERNAL_DIR}/cryptopp/include")
+MESSAGE (STATUS "${EXTERNAL_DIR}/asio/include")
+MESSAGE (STATUS "-------------------------------")
+
+
 SET (P2P_NETWORK_SOURCES
     p2p-network/include/impl/client_impl.cpp
     p2p-network/include/impl/server_impl.cpp
