@@ -1,6 +1,5 @@
 #include "block_container.h"
 #include <ctime>
-#include <string>
 
 using namespace chainthings;
 
@@ -29,7 +28,7 @@ Block& block_container::generate_genesis(TX&& base_tx)
 {
 	blocks_.emplace_front();
 	Block& new_block = blocks_.front();
-	std::memset(new_block.prev_block_hash_.data(), 0, sizeof(Crypto::Hash));
+	memset(new_block.prev_block_hash_.data(), 0, sizeof(Crypto::Hash));
 	new_block.nonce_ = 0;
 	new_block.timestamp_ = std::time(nullptr);
 	new_block.base_tx_ = std::move(base_tx);
