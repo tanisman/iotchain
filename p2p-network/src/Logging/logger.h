@@ -5,7 +5,7 @@
 #include "../Logging/spdlog/spdlog.h"
 #include "../../include/p2p-internal.h"
 
-#define ENABLE_FILE_LOGGING
+//#define ENABLE_FILE_LOGGING
 #if defined (_DEBUG)
 #	define LOG_LEVEL	spdlog::level::debug
 #else
@@ -20,6 +20,12 @@
 _P2P_NAMESPACE_BEGIN
 
 using log_level = spdlog::level::level_enum;
+class logger;
+extern bool g_logger_initialized;
+extern std::shared_ptr<spdlog::logger> g_console_logger;
+#if defined (ENABLE_FILE_LOGGING)
+extern std::shared_ptr<spdlog::logger> g_file_logger;
+#endif //ENABLE_FILE_LOGGING
 
 class logger
 {
@@ -43,11 +49,6 @@ private:
 	log_level log_lvl_;
 };
 
-extern bool g_logger_initialized;
-extern std::shared_ptr<spdlog::logger> g_console_logger;
-#if defined (ENABLE_FILE_LOGGING)
-extern std::shared_ptr<spdlog::logger> g_file_logger;
-#endif //ENABLE_FILE_LOGGING
 
 _P2P_NAMESPACE_END
 

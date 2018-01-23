@@ -4,7 +4,7 @@
 #include "../Logging/spdlog/spdlog.h"
 #include "ChainTypes.h"
 
-#define ENABLE_FILE_LOGGING
+//#define ENABLE_FILE_LOGGING
 #if defined (_DEBUG)
 #	define LOG_LEVEL	spdlog::level::debug
 #else
@@ -19,6 +19,13 @@
 _CHAIN_THINGS_BEGIN
 
 using log_level = spdlog::level::level_enum;
+
+class logger;
+extern bool g_logger_initialized;
+extern std::shared_ptr<spdlog::logger> g_console_logger;
+#if defined (ENABLE_FILE_LOGGING)
+extern std::shared_ptr<spdlog::logger> g_file_logger;
+#endif //ENABLE_FILE_LOGGING
 
 class logger
 {
@@ -41,12 +48,6 @@ public:
 private:
 	log_level log_lvl_;
 };
-
-extern bool g_logger_initialized;
-extern std::shared_ptr<spdlog::logger> g_console_logger;
-#if defined (ENABLE_FILE_LOGGING)
-extern std::shared_ptr<spdlog::logger> g_file_logger;
-#endif //ENABLE_FILE_LOGGING
 
 _CHAIN_THINGS_END
 
