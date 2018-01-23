@@ -19,7 +19,7 @@ msg_handler::~msg_handler()
 
 bool msg_handler::handle_message(p2p_node* node, p2p::message& msg)
 {
-	auto& handler = m_handlers.find(msg.header().type_);
+	auto handler = m_handlers.find(msg.header().type_);
 	if (handler != m_handlers.end())
 		return handler->second(node, msg);
 	return false;
