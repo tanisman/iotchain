@@ -35,7 +35,7 @@ SET (EXTERNAL_DIR ${CMAKE_SOURCE_DIR}/external)
 #set external libraries to link
 IF (UNIX)
 	#use c++14
-	ADD_DEFINITIONS("std=c++14")
+	ADD_DEFINITIONS("-std=c++14")
 	MESSAGE ( "searching for libraries" )
 	FIND_LIBRARY (SECP256K1_LIB_DBG NAMES libsecp256k1.a)
 	FIND_LIBRARY (CRYPTOPP_LIB_DBG NAMES libcryptopp.a)
