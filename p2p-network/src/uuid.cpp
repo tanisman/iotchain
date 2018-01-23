@@ -9,14 +9,14 @@ uuid::uuid()
 	GUID guid;
 	HRESULT res = CoCreateGuid(&guid);
 	assert(res == S_OK && "cannot create guid");
-	std::copy_n(reinterpret_cast<char *>(&guid), 16, vec_.data());
+	std::memcpy(vec_.data(), reinterpret_cast<char *>(&guid), 16);
 }
 #else
 uuid::uuid()
 {
 	uuid_t uuid;
 	uuid_generate_random(uuid);
-	std::copy_n(&uuid, 16, vec_.data());
+	std::memcpy(vec_.data(), reinterpret_cast<char *>(&uuid), 16);
 }
 #endif
 

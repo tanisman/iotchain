@@ -91,7 +91,7 @@ public:
 		T v;
 		if (size() - n_ < sizeof v)
 			throw std::runtime_error("end of stream");
-		std::copy_n(buf_.begin() + n_, sizeof v, &v);
+		std::memcpy(&v, buf_.data() + n_, sizeof v);
 		n_ += sizeof v;
 		return v;
 	}
@@ -101,7 +101,7 @@ public:
 	{
 		if (size() - n_ < count)
 			throw std::runtime_error("end of stream");
-		std::copy_n(buf_.begin() + n_, count, buffer);
+		std::memcpy(buffer, buf_.data() + n_, count);
 		n_ += count;
 	}
 };
