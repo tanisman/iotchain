@@ -86,6 +86,8 @@ bool blockchain::init(const std::string& folder)
 		}
 		this->container()->generate_genesis(std::move(tx));
 	}
+
+	return true;
 }
 
 bool blockchain::load_blocks()
