@@ -13,6 +13,7 @@ uuid::uuid()
 }
 #else
 uuid::uuid()
+	: vec_(16)
 {
 	uuid_t uuid;
 	uuid_generate_random(uuid);
