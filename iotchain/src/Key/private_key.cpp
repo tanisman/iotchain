@@ -51,7 +51,8 @@ public_key private_key::create_public_key() const
 
 	/****** get public key of private key ******/
 	secp256k1_pubkey secp_pub;
-	secp256k1_ec_pubkey_create(g_secp256k1_sign_context, &secp_pub, this->data());
+	int ret = secp256k1_ec_pubkey_create(g_secp256k1_sign_context, &secp_pub, this->data());
+	assert(ret && "secret was invalid");
 
 	/****** calculate hash160=ripemd(sha256(pubkey)) ******/
 	Crypto::Hash160 hash160 = Crypto::hash160(secp_pub.data, sizeof(secp_pub.data), g_network_id);
@@ -91,7 +92,7 @@ bool private_key::sign(const Crypto::Hash& hash, Crypto::Signature& sign)
 	secp256k1_ecdsa_recoverable_signature sig;
 
 	int ret = secp256k1_ecdsa_sign_recoverable(g_secp256k1_sign_context, &sig, hash.data(), data(), secp256k1_nonce_function_rfc6979, nullptr);
-	assert(ret && "ret=secp256k1_ecdsa_sign_recoverable(..)");
+	assert(ret && "the nonce generation function failed, or the private key was invalid");
 
 	ret = secp256k1_ecdsa_recoverable_signature_serialize_compact(g_secp256k1_sign_context, &sign[1], &rec, &sig);
 	assert(ret && "ret=secp256k1_ecdsa_recoverable_signature_serialize_compact(..)");

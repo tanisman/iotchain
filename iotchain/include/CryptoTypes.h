@@ -1,14 +1,14 @@
 #ifndef CRYPTO_TYPES_H
 #define CRYPTO_TYPES_H
 
-#define NAMESPACE_BEGIN(x) namespace x {
-#define NAMESPACE_END(x) }
+#define _NAMESPACE_BEGIN(x) namespace x {
+#define _NAMESPACE_END(x) }
 #include <cstdint>
 #include <cassert>
 #include <array>
 
 
-NAMESPACE_BEGIN(Crypto)
+_NAMESPACE_BEGIN(Crypto)
 
 
 using Hash = std::array<uint8_t, 32>;
@@ -30,6 +30,6 @@ uint32_t calculate_checksum(const uint8_t* ptr, size_t size, uint8_t c, uint8_t 
 uint32_t calculate_checksum(const std::vector<uint8_t>& vec, uint8_t c, uint8_t n);
 
 
-NAMESPACE_END(Crypto)
+_NAMESPACE_END(Crypto)
 
 #endif //CRYPTO_TYPES_H

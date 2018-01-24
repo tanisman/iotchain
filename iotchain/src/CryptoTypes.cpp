@@ -6,7 +6,7 @@
 using namespace CryptoPP;
 using namespace chainthings;
 
-NAMESPACE_BEGIN(Crypto)
+_NAMESPACE_BEGIN(Crypto)
 
 
 Hash160 hash160(const uint8_t* ptr, size_t size, uint8_t c)
@@ -60,4 +60,4 @@ uint32_t calculate_checksum(const std::vector<uint8_t>& vec, uint8_t c, uint8_t 
 	return calculate_checksum(hash160(vec, c), n);
 }
 
-NAMESPACE_END(Crypto)
+_NAMESPACE_END(Crypto)
