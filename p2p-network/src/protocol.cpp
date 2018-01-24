@@ -1,4 +1,5 @@
 #include "../include/protocol.h"
+#include "../src/Logging/logger.h"
 
 using namespace chainthings::p2p;
 
@@ -16,11 +17,13 @@ protocol::~protocol()
 
 bool protocol::receive(const void* buffer, size_t size, std::function<bool(std::error_code, message*)>&& handler)
 {
+	logger(log_level::info).format("recv_buffer_.size()={}, recv size={}", receive_buffer_.size(), size);
 	auto ptr = reinterpret_cast<const char*>(buffer), end = ptr + size;
 	while (ptr != end)
 	{
 		size_t available_bytes = end - ptr;
 		size_t remaining_bytes = recv_total_size_ - receive_buffer_.size();
+		logger(log_level::info).format("total_size={}, available_bytes={}, remaining_bytes={}", recv_total_size_, available_bytes, remaining_bytes);
 		if (remaining_bytes > available_bytes)
 			remaining_bytes = available_bytes;
 
@@ -29,6 +32,7 @@ bool protocol::receive(const void* buffer, size_t size, std::function<bool(std::
 		{
 			auto header = reinterpret_cast<message_header *>(receive_buffer_.data());
 			size_t new_size = header->size_;
+			logger(log_level::info).format("new recv task: {} bytes", new_size);
 			if (new_size == 0)
 			{
 				message msg(*header, nullptr);
