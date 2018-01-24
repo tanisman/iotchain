@@ -8,12 +8,23 @@
 
 _P2P_NAMESPACE_BEGIN
 
+#if defined(__GNUC__) || defined(__GNUG__)
+typedef struct __attribute__((packed)) 
+{
+	uint32_t size_;
+	uint8_t type_;
+	uint8_t ttl_;
+} message_header;
+#elif defined(_MSC_VER)
+#pragma pack(push, 1)
 struct message_header
 {
-	size_t size_;
+	uint32_t size_;
 	uint8_t type_;
 	uint8_t ttl_;
 };
+#pragma pack(pop)
+#endif
 
 class message
 	: public buffer_stream
