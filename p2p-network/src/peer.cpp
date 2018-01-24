@@ -52,7 +52,7 @@ void peer::do_read()
 			{
 				try
 				{
-					protocol_.receive(recv_buffer_, bytes_transferred,
+					bool cont_read = protocol_.receive(recv_buffer_, bytes_transferred,
 						[this, self](std::error_code pec, message *msg)
 					{
 						if (!pec && msg)
@@ -94,9 +94,10 @@ void peer::do_read()
 							return false;
 						}
 
-						do_read();
 						return true;
 					});
+					if (cont_read)
+						do_read();
 				}
 				catch (const std::exception& ex)
 				{
