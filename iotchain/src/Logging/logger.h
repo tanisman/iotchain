@@ -4,7 +4,9 @@
 #include "../Logging/spdlog/spdlog.h"
 #include "ChainTypes.h"
 
-//#define ENABLE_FILE_LOGGING
+#if defined (_MSC_VER)
+#	define ENABLE_FILE_LOGGING
+#endif //_MSC_VER
 #if defined (_DEBUG)
 #	define LOG_LEVEL	spdlog::level::debug
 #else
