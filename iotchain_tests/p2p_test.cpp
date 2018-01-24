@@ -15,10 +15,10 @@ bool p2p_test::execute()
 {
 	asio::io_service ios;
 	p2p::server<p2p::peer>::create(ios, 7777, 5)->start();
-	/*p2p::client<p2p::peer>::create(ios, "127.0.0.1", 7777)->start();
 	p2p::client<p2p::peer>::create(ios, "127.0.0.1", 7777)->start();
 	p2p::client<p2p::peer>::create(ios, "127.0.0.1", 7777)->start();
-	*/p2p::client<p2p::peer>::create(ios, "164.132.24.26", 7777)->start();
+	p2p::client<p2p::peer>::create(ios, "127.0.0.1", 7777)->start();
+	p2p::client<p2p::peer>::create(ios, "127.0.0.1", 7777)->start();
 	ios.run();
 	return true;
 }
