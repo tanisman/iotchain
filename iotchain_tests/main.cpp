@@ -28,6 +28,8 @@ int main(int argc, char **argv)
 		std::cout << "Test case '" << p2p_test::TEST_NAME << "' has succeeded" << std::endl;
 	}
 #endif //RUN_P2P_TEST
+#if defined (WIN32)
 	system("pause");
+#endif
 	return 0;
 }
