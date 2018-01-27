@@ -13,7 +13,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++6
+            - g++-6
 install:
   # Info about OS
   - uname -a
