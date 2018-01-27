@@ -33,7 +33,7 @@ matrix:
       env: CONFIG=Release TOOLCHAIN=sanitize-leak
     - os: linux
       env: CONFIG=Debug TOOLCHAIN=sanitize-leak
-	
+
 before_install:
   - export PATH=$(echo $PATH | tr ':' "\n" | sed '/\/opt\/python/d' | tr "\n" ":" | sed "s|::|:|g")
   
