@@ -1,8 +1,7 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.0)
 IF (UNIX)
 	#use c++14
-	ADD_DEFINITIONS("--std=c++14 -stdlib=libstdc++ -static -lstdc++")
-	#find libuuid
+	ADD_DEFINITIONS("--std=c++14 -static -lstdc++")
 ENDIF()
 
 OPTION (HUNTER_USE_CACHE_SERVERS "Use cached external libs (increases compile time)" ON)
