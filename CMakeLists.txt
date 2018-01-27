@@ -5,8 +5,6 @@ IF (UNIX)
 	#use c++14
 	ADD_DEFINITIONS("-std=c++14")
 	#find libuuid
-	FIND_LIBRARY (LIB_UUID NAMES libuuid.a)
-	MESSAGE (STATUS "uuid lib: ${LIB_UUID}")
 ENDIF()
 
 OPTION (HUNTER_USE_CACHE_SERVERS "Use cached external libs (increases compile time)" ON)
@@ -46,6 +44,9 @@ ENDIF ()
 SET (BLOCKCHAIN_DIR ${CMAKE_SOURCE_DIR}/iotchain)
 SET (P2P_DIR ${CMAKE_SOURCE_DIR}/p2p-network)
 SET (EXTERNAL_DIR ${CMAKE_SOURCE_DIR}/external)
+
+FIND_LIBRARY (LIB_UUID NAMES libuuid.a)
+MESSAGE (STATUS "uuid lib: ${LIB_UUID}")
 
 INCLUDE_DIRECTORIES (${BLOCKCHAIN_DIR}/include)
 INCLUDE_DIRECTORIES (${P2P_DIR}/include)
