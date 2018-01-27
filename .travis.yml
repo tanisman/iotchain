@@ -15,11 +15,11 @@ matrix:
           packages:
             - cmake-data
             - cmake
-            - g++-6
+            - g++6
 install:
   # Info about OS
   - uname -a
 script:
   - mkdir $TRAVIS_BUILD_DIR/build
-  - cd build && cmake .. -DCMAKE_CXX_COMPILER=g++-6
+  - cd build && cmake .. -DCMAKE_CXX_COMPILER=g++6
   - make
