@@ -4,6 +4,9 @@ IF (UNIX)
 	SET (CMAKE_CXX_COMPILER "/usr/bin/g++")	
 	#use c++14
 	ADD_DEFINITIONS("-std=c++14")
+	#find libuuid
+	FIND_LIBRARY (LIB_UUID NAMES libuuid.a)
+	MESSAGE (STATUS "uuid lib: ${LIB_UUID}")
 ENDIF()
 
 OPTION (HUNTER_USE_CACHE_SERVERS "Use cached external libs (increases compile time)" ON)
