@@ -6,22 +6,20 @@ dist: trusty
 
 matrix:
   include:
-     - os: linux
-    addons:
-      apt:
-        sources:
-          - george-edison55-precise-backports
-        packages:
-          - cmake-data
-          - cmake
-
-before_install:
-  - eval "${MATRIX_EVAL}"
-
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - george-edison55-precise-backports
+          packages:
+            - cmake-data
+            - cmake
+            - g++-6
 install:
   # Info about OS
   - uname -a
 script:
   - mkdir $TRAVIS_BUILD_DIR/build
-  - cd build && cmake ..
+  - cd build && cmake .. -DCMAKE_CXX_COMPILER=g++-6
   - make
