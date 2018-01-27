@@ -32,16 +32,6 @@ IF (DEFINE_DEBUG)
 	ADD_DEFINITIONS(-D_DEBUG)
 ENDIF ()
 
-IF ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-    MESSAGE( "64 bits compiler detected" )
-    SET( EX_PLATFORM 64 )
-    SET( EX_PLATFORM_NAME "x64" )
-ELSE ( CMAKE_SIZEOF_VOID_P EQUAL 8 ) 
-    MESSAGE( "32 bits compiler detected" )
-    SET( EX_PLATFORM 32 )
-    SET( EX_PLATFORM_NAME "x86" )
-ENDIF ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-
 #set up some important folders
 SET (BLOCKCHAIN_DIR ${CMAKE_SOURCE_DIR}/iotchain)
 SET (P2P_DIR ${CMAKE_SOURCE_DIR}/p2p-network)
@@ -49,31 +39,11 @@ SET (EXTERNAL_DIR ${CMAKE_SOURCE_DIR}/external)
 
 #set external libraries to link
 IF (UNIX)
+	#use g++
+	SET (CMAKE_CXX_COMPILER "/usr/bin/g++")	
 	#use c++14
 	ADD_DEFINITIONS("-std=c++14")
-	MESSAGE ( "searching for libraries" )
-	FIND_LIBRARY (SECP256K1_LIB_DBG NAMES libsecp256k1.a)
-	FIND_LIBRARY (CRYPTOPP_LIB_DBG NAMES libcryptopp.a)
-	FIND_LIBRARY (LIB_UUID NAMES libuuid.a)
-	SET (SECP256K1_LIB_REL ${SECP256K1_LIB_DBG})
-	SET (CRYPTOPP_LIB_REL ${CRYPTOPP_LIB_DBG})
-	MESSAGE (STATUS "uuid lib: ${LIB_UUID}")
-ELSE (UNIX)
-	IF ( EX_PLATFORM EQUAL 64 )		#if 64 bit compiling
-		SET (SECP256K1_LIB_DBG ${EXTERNAL_DIR}/secp256k1/lib/x64/Debug/secp256k1.lib)
-		SET (CRYPTOPP_LIB_DBG ${EXTERNAL_DIR}/cryptopp/lib/x64/Debug/cryptlib.lib)
-		SET (SECP256K1_LIB_REL ${EXTERNAL_DIR}/secp256k1/lib/x64/Release/secp256k1.lib)
-		SET (CRYPTOPP_LIB_REL ${EXTERNAL_DIR}/cryptopp/lib/x64/Release/cryptlib.lib)
-	ELSE ( EX_PLATFORM EQUAL 64 )	#if 32bit compiling
-		SET (SECP256K1_LIB_DBG ${EXTERNAL_DIR}/secp256k1/lib/Win32/Debug/secp256k1.lib)
-		SET (CRYPTOPP_LIB_DBG ${EXTERNAL_DIR}/cryptopp/lib/Win32/Debug/cryptlib.lib)
-		SET (SECP256K1_LIB_REL ${EXTERNAL_DIR}/secp256k1/lib/Win32/Release/secp256k1.lib)
-		SET (CRYPTOPP_LIB_REL ${EXTERNAL_DIR}/cryptopp/lib/Win32/Release/cryptlib.lib)
-	ENDIF ( EX_PLATFORM EQUAL 64 )
-ENDIF (UNIX)
-
-MESSAGE(STATUS "EC lib: ${SECP256K1_LIB_DBG}")
-MESSAGE(STATUS "CryptoPP lib: ${CRYPTOPP_LIB_DBG}")
+ENDIF()
 
 INCLUDE_DIRECTORIES (${BLOCKCHAIN_DIR}/include)
 INCLUDE_DIRECTORIES (${P2P_DIR}/include)
@@ -134,6 +104,8 @@ ADD_LIBRARY (iotchain
 
 hunter_add_package(cryptopp)
 FIND_PACKAGE (cryptopp CONFIG REQUIRED)
+
+INCLUDE ("${cryptopp_DIR}/cryptopp-config.cmake")
 	
 IF (UNIX)
 	TARGET_LINK_LIBRARIES(p2p-network -static-libgcc -static-libstdc++ -pthread)
@@ -142,9 +114,7 @@ IF (UNIX)
 	TARGET_LINK_LIBRARIES(iotchain ${LIB_UUID})
 ENDIF ()
 
-TARGET_LINK_LIBRARIES (iotchain p2p-network secp256k1)
-#TARGET_LINK_LIBRARIES (iotchain debug ${SECP256K1_LIB_DBG} optimized ${SECP256K1_LIB_REL})
-TARGET_LINK_LIBRARIES (iotchain cryptopp)
+TARGET_LINK_LIBRARIES (iotchain p2p-network secp256k1 cryptopp-static)
 
 ADD_EXECUTABLE(iotchain_tests 
 	iotchain_tests/main.cpp
@@ -156,7 +126,4 @@ IF (UNIX)
 	TARGET_LINK_LIBRARIES(iotchain_tests ${LIB_UUID})
 ENDIF ()
 	
-TARGET_LINK_LIBRARIES (iotchain_tests iotchain p2p-network)
-#TARGET_LINK_LIBRARIES (iotchain_tests debug ${SECP256K1_LIB_DBG} optimized ${SECP256K1_LIB_REL})
-TARGET_LINK_LIBRARIES (iotchain_tests debug cryptopp-staticd optimized cryptopp-static)
-
+TARGET_LINK_LIBRARIES (iotchain_tests iotchain p2p-network cryptopp-static)
