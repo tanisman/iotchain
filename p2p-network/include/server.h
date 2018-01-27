@@ -16,9 +16,9 @@ template<typename _Peer_Ty>
 class server
 {
 public:
-	server(asio::io_service& io_service, short port, size_t max_con = 0)
+	server(asio::io_service& io_service, const std::string& ip, short port, size_t max_con = 0)
 	{
-		impl_ = std::make_shared<server_impl>(io_service, port, max_con);
+		impl_ = std::make_shared<server_impl>(io_service, ip, port, max_con);
 	}
 	server(const server& other) = delete;
 	void start()

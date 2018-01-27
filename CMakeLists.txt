@@ -94,6 +94,7 @@ SET (IOTCHAIN_SOURCES
 )
 
 ADD_SUBDIRECTORY(external/secp256k1)
+ADD_SUBDIRECTORY(external/cxxopts)
 
 ADD_LIBRARY (p2p-network
 	STATIC

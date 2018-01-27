@@ -15,7 +15,7 @@ class server_impl
 	template<typename T>
 	friend class server;
 public:
-	server_impl(asio::io_service& io_service, short port, size_t max_con = 0);
+	server_impl(asio::io_service& io_service, const std::string& ip, short port, size_t max_con = 0);
 	server_impl(const server_impl& other) = delete;
 	~server_impl();
 	std::atomic<size_t>& connections();
