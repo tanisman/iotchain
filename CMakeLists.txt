@@ -1,4 +1,11 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.0)
+IF (UNIX)
+	#use g++
+	SET (CMAKE_CXX_COMPILER "/usr/bin/g++")	
+	#use c++14
+	ADD_DEFINITIONS("-std=c++14")
+ENDIF()
+
 OPTION (HUNTER_USE_CACHE_SERVERS "Use cached external libs (increases compile time)" ON)
 
 INCLUDE ("cmake/HunterGate.cmake")
@@ -36,14 +43,6 @@ ENDIF ()
 SET (BLOCKCHAIN_DIR ${CMAKE_SOURCE_DIR}/iotchain)
 SET (P2P_DIR ${CMAKE_SOURCE_DIR}/p2p-network)
 SET (EXTERNAL_DIR ${CMAKE_SOURCE_DIR}/external)
-
-#set external libraries to link
-IF (UNIX)
-	#use g++
-	SET (CMAKE_CXX_COMPILER "/usr/bin/g++")	
-	#use c++14
-	ADD_DEFINITIONS("-std=c++14")
-ENDIF()
 
 INCLUDE_DIRECTORIES (${BLOCKCHAIN_DIR}/include)
 INCLUDE_DIRECTORIES (${P2P_DIR}/include)
