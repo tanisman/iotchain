@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.0)
 IF (UNIX)
 	#use c++14
-	ADD_DEFINITIONS("-std=c++14")
+	ADD_DEFINITIONS("--std=c++14 -stdlib=libstdc++ -static -lstdc++")
 	#find libuuid
 ENDIF()
 
@@ -112,8 +112,7 @@ FIND_PACKAGE (cryptopp CONFIG REQUIRED)
 INCLUDE ("${cryptopp_DIR}/cryptopp-config.cmake")
 	
 IF (UNIX)
-	TARGET_LINK_LIBRARIES(p2p-network -static-libgcc -static-libstdc++ -pthread)
-	TARGET_LINK_LIBRARIES(iotchain -static-libgcc -static-libstdc++ -pthread)
+	TARGET_LINK_LIBRARIES(p2p-network -pthread)
 	TARGET_LINK_LIBRARIES(p2p-network ${LIB_UUID})
 	TARGET_LINK_LIBRARIES(iotchain ${LIB_UUID})
 ENDIF ()
@@ -126,7 +125,7 @@ ADD_EXECUTABLE(iotchain_tests
 	iotchain_tests/p2p_test.cpp)
 	
 IF (UNIX)
-	TARGET_LINK_LIBRARIES(iotchain_tests -static-libgcc -static-libstdc++ -pthread)
+	TARGET_LINK_LIBRARIES(iotchain_tests -pthread)
 	TARGET_LINK_LIBRARIES(iotchain_tests ${LIB_UUID})
 ENDIF ()
 	
