@@ -1,4 +1,14 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
+CMAKE_MINIMUM_REQUIRED (VERSION 3.0)
+OPTION (HUNTER_USE_CACHE_SERVERS "Use cached external libs (increases compile time)" ON)
+
+INCLUDE ("cmake/HunterGate.cmake")
+
+HunterGate(
+    URL "https://github.com/ruslo/hunter/archive/v0.19.232.tar.gz"
+    SHA1 "a412c45fe4c5a72fed386f62dd8d753bd4fd3d11"
+    LOCAL
+)
+
 PROJECT (IoTChain)
 
 OPTION (ENABLE_DEBUG_MSG "Print debug log of network messages." ON)
@@ -110,7 +120,9 @@ SET (IOTCHAIN_SOURCES
     iotchain/src/Logging/spdlog/fmt/bundled/ostream.cc
     iotchain/src/Logging/spdlog/fmt/bundled/posix.cc
     iotchain/src/Logging/spdlog/fmt/bundled/printf.cc
-)	
+)
+
+ADD_SUBDIRECTORY(external/secp256k1)
 
 ADD_LIBRARY (p2p-network
 	STATIC
@@ -119,6 +131,9 @@ ADD_LIBRARY (p2p-network
 ADD_LIBRARY (iotchain
 	STATIC
 	${IOTCHAIN_SOURCES})
+
+hunter_add_package(cryptopp)
+FIND_PACKAGE (cryptopp CONFIG REQUIRED)
 	
 IF (UNIX)
 	TARGET_LINK_LIBRARIES(p2p-network -static-libgcc -static-libstdc++ -pthread)
@@ -127,9 +142,9 @@ IF (UNIX)
 	TARGET_LINK_LIBRARIES(iotchain ${LIB_UUID})
 ENDIF ()
 
-TARGET_LINK_LIBRARIES (iotchain p2p-network)
-TARGET_LINK_LIBRARIES (iotchain debug ${SECP256K1_LIB_DBG} optimized ${SECP256K1_LIB_REL})
-TARGET_LINK_LIBRARIES (iotchain debug ${CRYPTOPP_LIB_DBG} optimized ${CRYPTOPP_LIB_REL})
+TARGET_LINK_LIBRARIES (iotchain p2p-network secp256k1)
+#TARGET_LINK_LIBRARIES (iotchain debug ${SECP256K1_LIB_DBG} optimized ${SECP256K1_LIB_REL})
+TARGET_LINK_LIBRARIES (iotchain cryptopp)
 
 ADD_EXECUTABLE(iotchain_tests 
 	iotchain_tests/main.cpp
@@ -142,6 +157,6 @@ IF (UNIX)
 ENDIF ()
 	
 TARGET_LINK_LIBRARIES (iotchain_tests iotchain p2p-network)
-TARGET_LINK_LIBRARIES (iotchain_tests debug ${SECP256K1_LIB_DBG} optimized ${SECP256K1_LIB_REL})
-TARGET_LINK_LIBRARIES (iotchain_tests debug ${CRYPTOPP_LIB_DBG} optimized ${CRYPTOPP_LIB_REL})
+#TARGET_LINK_LIBRARIES (iotchain_tests debug ${SECP256K1_LIB_DBG} optimized ${SECP256K1_LIB_REL})
+TARGET_LINK_LIBRARIES (iotchain_tests debug cryptopp-staticd optimized cryptopp-static)
 
