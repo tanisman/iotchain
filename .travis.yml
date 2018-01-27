@@ -25,7 +25,7 @@ matrix:
           packages:
             - clang-3.6
       env: 
-        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3-6"
+        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
 before_install:
     - eval "${MATRIX_EVAL}"
 
