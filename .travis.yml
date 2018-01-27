@@ -14,10 +14,17 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+
+before_install:
+    - eval "${MATRIX_EVAL}"
+
 install:
   # Info about OS
   - uname -a
+ 
 script:
   - mkdir $TRAVIS_BUILD_DIR/build
-  - cd build && cmake .. -DCMAKE_CXX_COMPILER=g++6
+  - cd build && cmake ..
   - make
