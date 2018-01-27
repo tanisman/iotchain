@@ -1,8 +1,4 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.0)
-IF (UNIX)
-	#use c++14
-	SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++14 -stdlib=libstdc++")
-ENDIF()
 
 OPTION (HUNTER_USE_CACHE_SERVERS "Use cached external libs (increases compile time)" ON)
 
@@ -15,6 +11,9 @@ HunterGate(
 )
 
 PROJECT (IoTChain)
+
+SET (CMAKE_CXX_STANDARD 14)
+SET (CMAKE_CXX_STANDARD_REQUIRED ON)
 
 OPTION (ENABLE_DEBUG_MSG "Print debug log of network messages." ON)
 OPTION (ENABLE_FILE_LOGGING "Enable log to file." ON)
