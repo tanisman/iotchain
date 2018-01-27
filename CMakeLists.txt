@@ -3,7 +3,7 @@ IF (UNIX)
 	#use g++
 	SET (CMAKE_CXX_COMPILER "/usr/bin/g++")	
 	#use c++14
-	SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+	ADD_DEFINITIONS("-std=c++14")
 	#find libuuid
 ENDIF()
 
