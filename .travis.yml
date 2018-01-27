@@ -5,44 +5,102 @@ language:
 
 # Container-based infrastructure (Linux)
 # * https://docs.travis-ci.com/user/migrating-from-legacy/#How-can-I-use-container-based-infrastructure%3F
-sudo:
-  - false
+sudo: required
 
-dist:
-  - trusty
+dist: trusty
 
 matrix:
   include:
     - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - python3-pip
       env: CONFIG=Release TOOLCHAIN=default
     - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - python3-pip
       env: CONFIG=Debug TOOLCHAIN=default
     - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - python3-pip
       env: CONFIG=Release TOOLCHAIN=gcc
     - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - python3-pip
       env: CONFIG=Debug TOOLCHAIN=gcc
     - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - python3-pip
       env: CONFIG=Release TOOLCHAIN=analyze
     - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - python3-pip
       env: CONFIG=Debug TOOLCHAIN=analyze
     - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - python3-pip
       env: CONFIG=Release TOOLCHAIN=sanitize-address
     - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - python3-pip
       env: CONFIG=Debug TOOLCHAIN=sanitize-address
     - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - python3-pip
       env: CONFIG=Release TOOLCHAIN=sanitize-leak
     - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - python3-pip
       env: CONFIG=Debug TOOLCHAIN=sanitize-leak
 install:
   # Info about OS
   - uname -a
 
   # Install Python 3
-  - if [[ "`uname`" == "Darwin" ]]; then travis_retry brew install python3; fi
+  #- if [[ "`uname`" == "Darwin" ]]; then travis_retry brew install python3; fi
 
   # Install Python package 'requests'
+  #- if [[ "`uname`" == "Darwin" ]]; then pip3 install requests; fi
   # 'easy_install3' is not installed by 'brew install python3' on OS X 10.9 Maverick
-  - if [[ "`uname`" == "Darwin" ]]; then pip3 install requests; fi
   - if [[ "`uname`" == "Linux" ]]; then travis_retry pip3 install --user requests; fi
 
   # Install latest Polly toolchains and scripts
