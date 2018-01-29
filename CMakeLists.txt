@@ -131,4 +131,4 @@ IF (UNIX)
 	TARGET_LINK_LIBRARIES(iotchain_tests ${LIB_UUID})
 ENDIF ()
 	
-TARGET_LINK_LIBRARIES (iotchain_tests iotchain p2p-network cryptopp-static)
+TARGET_LINK_LIBRARIES (iotchain_tests iotchain p2p-network cryptopp-static rocksdb)
