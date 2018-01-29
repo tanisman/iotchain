@@ -119,6 +119,7 @@ IF (UNIX)
 	TARGET_LINK_LIBRARIES(iotchain ${LIB_UUID})
 ENDIF ()
 
+FIND_PACKAGE(rocksdb REQUIRED)
 TARGET_LINK_LIBRARIES (iotchain p2p-network secp256k1 cryptopp-static rocksdb)
 
 ADD_EXECUTABLE(iotchain_tests 
