@@ -112,15 +112,13 @@ hunter_add_package(cryptopp)
 FIND_PACKAGE (cryptopp CONFIG REQUIRED)
 
 INCLUDE ("${cryptopp_DIR}/cryptopp-config.cmake")
-
+	
 IF (UNIX)
 	TARGET_LINK_LIBRARIES(p2p-network -pthread)
 	TARGET_LINK_LIBRARIES(p2p-network ${LIB_UUID})
 	TARGET_LINK_LIBRARIES(iotchain ${LIB_UUID})
 ENDIF ()
 
-FIND_LIBRARY(ROCKS_DB NAMES rocksdb)
-MESSAGE("ROCKSDB=${ROCKS_DB}")
 TARGET_LINK_LIBRARIES (iotchain p2p-network secp256k1 cryptopp-static rocksdb)
 
 ADD_EXECUTABLE(iotchain_tests 
