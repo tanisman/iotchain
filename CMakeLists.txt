@@ -119,8 +119,6 @@ IF (UNIX)
 	TARGET_LINK_LIBRARIES(iotchain ${LIB_UUID})
 ENDIF ()
 
-LINK_DIRECTORIES(${CMAKE_BINARY_DIR}external/rocksdb)
-
 TARGET_LINK_LIBRARIES (iotchain p2p-network secp256k1 cryptopp-static rocksdb)
 
 ADD_EXECUTABLE(iotchain_tests 

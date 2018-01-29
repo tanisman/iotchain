@@ -10,7 +10,7 @@ block_container::block_container(const std::string& path)
 	assert(g_db == nullptr && "rocksdb already opened");
 
 	rocksdb::Options options;
-	options.IncreaseParallelism(4);
+	//options.IncreaseParallelism(4);
 	options.create_if_missing = true;
 
 	auto s = rocksdb::DB::Open(options, path, &g_db);
