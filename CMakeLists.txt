@@ -93,6 +93,7 @@ SET (IOTCHAIN_SOURCES
     iotchain/src/Logging/spdlog/fmt/bundled/ostream.cc
     iotchain/src/Logging/spdlog/fmt/bundled/posix.cc
     iotchain/src/Logging/spdlog/fmt/bundled/printf.cc
+	iotchain/src/db/db.cpp
 )
 
 ADD_SUBDIRECTORY(external/secp256k1)
