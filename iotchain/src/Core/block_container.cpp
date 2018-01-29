@@ -1,3 +1,4 @@
+#include "../db/db.h"
 #include "block_container.h"
 #include <ctime>
 #include <cstring>
@@ -6,6 +7,14 @@ using namespace chainthings;
 
 block_container::block_container(const std::string& path)
 {
+	assert(g_db == nullptr && "rocksdb already opened");
+
+	rocksdb::Options options;
+	options.IncreaseParallelism(4);
+	options.create_if_missing = true;
+
+	auto s = rocksdb::DB::Open(options, path, &g_db);
+	assert(s.ok() && "cannot open rocksdb");
 }
 
 block_container::~block_container()
@@ -33,6 +42,7 @@ Block& block_container::generate_genesis(TX&& base_tx)
 	new_block.nonce_ = 0;
 	new_block.timestamp_ = std::time(nullptr);
 	new_block.base_tx_ = std::move(base_tx);
+	
 	return new_block;
 }
 

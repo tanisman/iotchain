@@ -3,40 +3,42 @@
 #include <iostream>
 #include "../Key/private_key.h"
 #include "../Key/public_key.h"
+#include "../db/db.h"
 #include <cryptopp/sha.h>
 #include <base58.h>
+#ifndef WIN32
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+#endif //
+
 
 using namespace chainthings;
 using namespace CryptoPP;
 
 blockchain::blockchain()
 {
-	secp256k1_sign_start();
-
-	//KeyPair kp(account_key);
-
-	private_key priv_key("5K516qoV1JPMKv1Yq1NHJN2F3G62vQizdTtnJpY4NyMuUpnPKgY");
-	public_key pub_key("1AKUgr2RptqAXD1N1kwBm3vj2JoSya735g");
-
-	const byte msg[] = "Hello World!";
-
-	Crypto::Hash hash;
-	SHA256 sha256;
-	sha256.Update(msg, 13);
-	sha256.Final(hash.data());
-
-	Crypto::Signature sign;
-	priv_key.sign(hash, sign);
-
-	secp256k1_sign_stop();
-
-	std::string encoded_sign = base58_encode(sign.data(), sign.data() + sign.size());
-
-	secp256k1_verify_start();
-	bool verified = pub_key.verify(hash, sign);
-	secp256k1_verify_stop();
-
-	std::cout << "encoded sign: " << encoded_sign << " verified: " << verified << std::endl;
+//	std::string rocksdb_path;
+//#if defined(WIN32)
+//	char* appdata = getenv("APPDATA");
+//	rocksdb_path = appdata;
+//	rocksdb_path.replace(rocksdb_path.begin(), rocksdb_path.end(), "/", "\\");
+//	if (rocksdb_path.back() != '\\')
+//		rocksdb_path.append(1, '\\');
+//	rocksdb_path += "chainthings\\blocks";
+//
+//#else
+//	rocksdb_path = getpwuid(getuid())->pw_dir;
+//	if (rocksdb_path.back() != '/')
+//		rocksdb_path.append(1, '/');
+//	rocksdb_path += ".chainthings/blocks";
+//#endif //WIN32
+//	rocksdb::Options options;
+//	options.IncreaseParallelism(4);
+//	options.create_if_missing = true;
+//
+//	auto s = rocksdb::DB::Open(options, rocksdb_path, &g_db);
+//	assert(s.ok() && "cannot open rocksdb");
 }
 
 blockchain::~blockchain()

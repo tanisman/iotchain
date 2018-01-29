@@ -50,6 +50,7 @@ INCLUDE_DIRECTORIES (${EXTERNAL_DIR}/secp256k1/include)
 INCLUDE_DIRECTORIES (${EXTERNAL_DIR}/cryptopp/include)
 INCLUDE_DIRECTORIES (${EXTERNAL_DIR}/asio/include)
 INCLUDE_DIRECTORIES (${EXTERNAL_DIR}/cxxopts/include)
+INCLUDE_DIRECTORIES (${EXTERNAL_DIR}/rocksdb/include)
 
 MESSAGE (STATUS "INCLUDE DIRECTORIES:")
 MESSAGE (STATUS "${BLOCKCHAIN_DIR}/include")
@@ -58,6 +59,7 @@ MESSAGE (STATUS "${EXTERNAL_DIR}/secp256k1/include")
 MESSAGE (STATUS "${EXTERNAL_DIR}/cryptopp/include")
 MESSAGE (STATUS "${EXTERNAL_DIR}/asio/include")
 MESSAGE (STATUS "${EXTERNAL_DIR}/cxxopts/include")
+MESSAGE (STATUS "${EXTERNAL_DIR}/rocksdb/include")
 MESSAGE (STATUS "-------------------------------")
 
 
@@ -95,6 +97,7 @@ SET (IOTCHAIN_SOURCES
 
 ADD_SUBDIRECTORY(external/secp256k1)
 ADD_SUBDIRECTORY(external/cxxopts)
+ADD_SUBDIRECTORY(external/rocksdb)
 
 ADD_LIBRARY (p2p-network
 	STATIC
@@ -115,7 +118,7 @@ IF (UNIX)
 	TARGET_LINK_LIBRARIES(iotchain ${LIB_UUID})
 ENDIF ()
 
-TARGET_LINK_LIBRARIES (iotchain p2p-network secp256k1 cryptopp-static)
+TARGET_LINK_LIBRARIES (iotchain p2p-network secp256k1 cryptopp-static rocksdb)
 
 ADD_EXECUTABLE(iotchain_tests 
 	iotchain_tests/main.cpp

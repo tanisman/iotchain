@@ -57,6 +57,7 @@
     <ClInclude Include="src\Key\private_key.h" />
     <ClInclude Include="src\P2P\p2p_node.h" />
     <ClInclude Include="src\P2P\msg_handler.h" />
+    <ClInclude Include="src\db\db.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Blockchain.cpp" />
@@ -73,5 +74,6 @@
     <ClCompile Include="src\CryptoTypes.cpp" />
     <ClCompile Include="src\P2P\p2p_node.cpp" />
     <ClCompile Include="src\P2P\msg_handler.cpp" />
+    <ClCompile Include="src\db\db.cpp" />
   </ItemGroup>
 </Project>
