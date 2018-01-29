@@ -28,6 +28,7 @@ matrix:
         - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
 before_install:
     - eval "${MATRIX_EVAL}"
+    - chmod -R 755 $TRAVIS_BUILD_DIR/external/rocksdb/build_tools/
 
 install:
   # Info about OS
