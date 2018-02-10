@@ -19,27 +19,6 @@ using namespace CryptoPP;
 
 blockchain::blockchain()
 {
-//	std::string rocksdb_path;
-//#if defined(WIN32)
-//	char* appdata = getenv("APPDATA");
-//	rocksdb_path = appdata;
-//	rocksdb_path.replace(rocksdb_path.begin(), rocksdb_path.end(), "/", "\\");
-//	if (rocksdb_path.back() != '\\')
-//		rocksdb_path.append(1, '\\');
-//	rocksdb_path += "chainthings\\blocks";
-//
-//#else
-//	rocksdb_path = getpwuid(getuid())->pw_dir;
-//	if (rocksdb_path.back() != '/')
-//		rocksdb_path.append(1, '/');
-//	rocksdb_path += ".chainthings/blocks";
-//#endif //WIN32
-//	rocksdb::Options options;
-//	options.IncreaseParallelism(4);
-//	options.create_if_missing = true;
-//
-//	auto s = rocksdb::DB::Open(options, rocksdb_path, &g_db);
-//	assert(s.ok() && "cannot open rocksdb");
 }
 
 blockchain::~blockchain()
