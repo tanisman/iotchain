@@ -65,7 +65,7 @@ bool blockchain::init(const std::string& folder)
 		logger(log_level::warn) << "can't find any genesis block";
 		logger(log_level::info) << "generating genesis block...";
 
-		logger(log_level::warn) << "create an account to send all coins?(y/Y): ";
+		logger(log_level::warn) << "create a wallet to send all coins?(y/Y): ";
 		std::string ans;
 		std::cin >> ans;
 
@@ -76,14 +76,15 @@ bool blockchain::init(const std::string& folder)
 			KeyPair kp;
 			tx.from_ = { 0 };
 			tx.time_ = std::time(nullptr);
-			tx.inputs_.push_back(TXInput{ 0, 123456789 });
+			tx.inputs_.push_back(TXInput{ 123456789 });
 			tx.outputs_.push_back(TXOutput{ 123456789, kp.public_key() });
+			logger(log_level::info) << "new wallet created and saved.";
 		}
 		else
 		{
 			tx.from_ = { 0 };
 			tx.time_ = std::time(nullptr);
-			tx.inputs_.push_back(TXInput{ 0, 0 });
+			tx.inputs_.push_back(TXInput{ 0 });
 			tx.outputs_.push_back(TXOutput{ 0,{ 0 } });
 		}
 		this->container()->generate_genesis(std::move(tx));

@@ -58,6 +58,9 @@
     <ClInclude Include="src\P2P\p2p_node.h" />
     <ClInclude Include="src\P2P\msg_handler.h" />
     <ClInclude Include="src\db\db.h" />
+    <ClInclude Include="src\Core\block_index.h" />
+    <ClInclude Include="include\json.hpp" />
+    <ClInclude Include="include\serialization.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Blockchain.cpp" />
@@ -75,5 +78,7 @@
     <ClCompile Include="src\P2P\p2p_node.cpp" />
     <ClCompile Include="src\P2P\msg_handler.cpp" />
     <ClCompile Include="src\db\db.cpp" />
+    <ClCompile Include="src\Core\block_index.cpp" />
+    <ClCompile Include="src\serialization.cpp" />
   </ItemGroup>
 </Project>

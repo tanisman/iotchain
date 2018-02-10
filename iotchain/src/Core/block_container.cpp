@@ -41,7 +41,7 @@ Block& block_container::generate_genesis(TX&& base_tx)
 	memset(new_block.prev_block_hash_.data(), 0, sizeof(Crypto::Hash));
 	new_block.nonce_ = 0;
 	new_block.timestamp_ = std::time(nullptr);
-	new_block.base_tx_ = std::move(base_tx);
+	new_block.coinbase_ = std::move(base_tx);
 	
 	return new_block;
 }

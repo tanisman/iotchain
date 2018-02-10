@@ -41,7 +41,6 @@ TX msg_handler::read_tx(p2p::message& msg)
 	for (int i = 0; i < input_size; i++)		//TXInput
 	{
 		TXInput tx_inp;
-		tx_inp.block_index_ = msg.read<uint32_t>();
 		tx_inp.amount_ = msg.read<uint64_t>();
 		auto data_size = msg.read<uint32_t>();
 		tx_inp.data_.resize(data_size);
@@ -82,7 +81,7 @@ DECL_FN_MSG_HANDLER(OnNewBlock)
 	bl.nonce_ = msg.read<uint32_t>();
 	bl.timestamp_ = msg.read<uint64_t>();
 	msg.read(bl.prev_block_hash_.data(), bl.prev_block_hash_.size());
-	bl.base_tx_ = read_tx(msg);
+	bl.coinbase_ = read_tx(msg);
 	auto tx_size = msg.read<uint32_t>();
 	bl.tx_list_.resize(tx_size);
 	for (int i = 0; i < tx_size; i++)

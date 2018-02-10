@@ -145,6 +145,9 @@
   <ItemGroup>
     <ClInclude Include="include\base58.h" />
     <ClInclude Include="include\ChainTypes.h" />
+    <ClInclude Include="include\json.hpp" />
+    <ClInclude Include="include\serialization.h" />
+    <ClInclude Include="src\Core\block_index.h" />
     <ClInclude Include="src\db\db.h" />
     <ClInclude Include="src\P2P\msg_handler.h" />
     <ClInclude Include="src\P2P\p2p_node.h" />
@@ -194,6 +197,8 @@
     <ClInclude Include="src\Logging\spdlog\tweakme.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\serialization.cpp" />
+    <ClCompile Include="src\Core\block_index.cpp" />
     <ClCompile Include="src\db\db.cpp" />
     <ClCompile Include="src\P2P\msg_handler.cpp" />
     <ClCompile Include="src\P2P\p2p_node.cpp" />

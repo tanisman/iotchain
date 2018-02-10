@@ -7,7 +7,9 @@
 
 #include <vector>
 #include <utility>
+#include "json.hpp"
 #include "CryptoTypes.h"
+
 
 namespace CryptoPP
 {
@@ -22,7 +24,6 @@ enum KeyPairType : uint8_t { account_key, smart_contract_key };
 
 struct TXInput
 {
-	uint32_t block_index_;
 	uint64_t amount_;
 	std::vector<uint8_t> data_;
 };
@@ -56,7 +57,7 @@ struct BlockHeader
 
 struct Block : public BlockHeader
 {
-	TX base_tx_;
+	TX coinbase_;
 	std::vector<TX> tx_list_;
 };
 
