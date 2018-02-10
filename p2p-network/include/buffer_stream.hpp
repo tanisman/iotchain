@@ -1,12 +1,16 @@
-#pragma once
+#ifndef P2P_BUFFER_STREAM_H
+#define P2P_BUFFER_STREAM_H
+
 #define _SCL_SECURE_NO_WARNINGS
 #include <vector>
 #include <cstddef>
 #include <cstring>
 #include <stdexcept>
 #include <cassert>
+#include "stream.h"
 
 class buffer_stream
+	: public stream
 {
 private:
 	std::vector<char> buf_;
@@ -49,24 +53,24 @@ public:
 		return buf_.data();
 	}
 
-	const char* data() const noexcept
+	const char* data() const noexcept override
 	{
 		return buf_.data();
 	}
 
-	std::size_t size() const noexcept
+	std::size_t size() const noexcept override
 	{
 		return buf_.size();
 	}
 
-	void move(std::intptr_t offset)
+	void move(std::intptr_t offset) override
 	{
 		if (n_ + offset > size())
 			throw std::runtime_error("index of out range");
 		n_ += offset;
 	}
 
-	void move_to(std::size_t offset)
+	void move_to(std::size_t offset) override
 	{
 		if (offset > size())
 			throw std::runtime_error("index of out range");
@@ -78,26 +82,21 @@ public:
 	{
 		write(reinterpret_cast<const char*>(&val), sizeof val);
 	}
+	template<typename T>
+	T read()
+	{
+		T v;
+		read(&v, sizeof v);
+		return v;
+	}
 
-	void write(const char* p, std::size_t n)
+	void write(const char* p, std::size_t n) override
 	{
 		buf_.insert(buf_.begin() + n_, p, p + n);
 		n_ += n;
 	}
 
-	template<typename T>
-	T read()
-	{
-		T v;
-		if (size() - n_ < sizeof v)
-			throw std::runtime_error("end of stream");
-		std::memcpy(&v, buf_.data() + n_, sizeof v);
-		n_ += sizeof v;
-		return v;
-	}
-
-	template<typename T>
-	void read(T* buffer, std::size_t count)
+	void read(void* buffer, std::size_t count) override
 	{
 		if (size() - n_ < count)
 			throw std::runtime_error("end of stream");
@@ -105,3 +104,5 @@ public:
 		n_ += count;
 	}
 };
+
+#endif //P2P_BUFFER_STREAM_H

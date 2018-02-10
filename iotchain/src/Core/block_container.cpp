@@ -1,5 +1,6 @@
 #include "../db/db.h"
 #include "block_container.h"
+#include "memory_reader.hpp"
 #include <ctime>
 #include <cstring>
 
@@ -21,34 +22,30 @@ block_container::~block_container()
 {
 }
 
-Block& block_container::allocate()
-{
-	const Block& last_block = blocks_.front();
-
-	blocks_.emplace_front();
-	Block& new_block = blocks_.front();
-	new_block.nonce_ = last_block.nonce_ + 1;
-	new_block.prev_block_hash_ = BlockHash(last_block);
-	new_block.timestamp_ = std::time(nullptr);
-
-	return new_block;
-}
 
 Block& block_container::generate_genesis(TX&& base_tx)
 {
-	blocks_.emplace_front();
-	Block& new_block = blocks_.front();
+	if (index_.size() > 0)
+		throw std::logic_error("already has genesis");
+
+	Block new_block;
 	memset(new_block.prev_block_hash_.data(), 0, sizeof(Crypto::Hash));
 	new_block.nonce_ = 0;
 	new_block.timestamp_ = std::time(nullptr);
 	new_block.coinbase_ = std::move(base_tx);
-	
+	Crypto::Hash block_hash = BlockHash(new_block);
+
 	return new_block;
 }
 
-const Block& block_container::genesis_block() const
+const Block block_container::genesis_block() const
 {
-	return blocks_.back();
+	auto& hash = index_.block_at(0);
+	rocksdb::PinnableSlice pinnable_val;
+	g_db->Get(rocksdb::ReadOptions(), g_db->DefaultColumnFamily(), make_slice(hash), &pinnable_val);
+
+	memory_reader reader(pinnable_val.data(), pinnable_val.size());
+
 }
 
 const block_container::ContainerT& block_container::blocks() const

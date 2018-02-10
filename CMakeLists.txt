@@ -86,7 +86,9 @@ SET (IOTCHAIN_SOURCES
     iotchain/src/Key/public_key.cpp
     iotchain/src/base58.cpp
     iotchain/src/ChainTypes.cpp
+	iotchain/src/serialization.cpp
     iotchain/src/Core/block_container.cpp
+	iotchian/src/Core/block_index.cpp
     iotchain/src/Core/Blockchain.cpp
     iotchain/src/Logging/logger.cpp
     iotchain/src/Logging/spdlog/fmt/bundled/format.cc
@@ -94,7 +96,6 @@ SET (IOTCHAIN_SOURCES
     iotchain/src/Logging/spdlog/fmt/bundled/posix.cc
     iotchain/src/Logging/spdlog/fmt/bundled/printf.cc
     iotchain/src/db/db.cpp
-    iotchain/src/serialization.cpp
 )
 
 ADD_SUBDIRECTORY(external/secp256k1)

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../Key/private_key.h"
 #include "../Key/public_key.h"
+#include <serialization.h>
 #include "../db/db.h"
 #include <cryptopp/sha.h>
 #include <base58.h>
@@ -87,7 +88,8 @@ bool blockchain::init(const std::string& folder)
 			tx.inputs_.push_back(TXInput{ 0 });
 			tx.outputs_.push_back(TXOutput{ 0,{ 0 } });
 		}
-		this->container()->generate_genesis(std::move(tx));
+		auto serialized = json_serializer::serialize_block(this->container()->generate_genesis(std::move(tx)));
+		LOG_INFO(serialized.dump(4));
 	}
 
 	return true;

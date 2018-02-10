@@ -141,6 +141,7 @@
     <ClInclude Include="include\buffer_stream.hpp" />
     <ClInclude Include="include\client.h" />
     <ClInclude Include="include\impl\server_impl.h" />
+    <ClInclude Include="include\memory_reader.hpp" />
     <ClInclude Include="include\p2p-internal.h" />
     <ClInclude Include="include\message.h" />
     <ClInclude Include="include\p2p.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="include\protocol.h" />
     <ClInclude Include="include\peer.h" />
     <ClInclude Include="include\server.h" />
+    <ClInclude Include="include\stream.h" />
     <ClInclude Include="include\uuid.h" />
     <ClInclude Include="src\Logging\logger.h" />
     <ClInclude Include="src\Logging\spdlog\async_logger.h" />

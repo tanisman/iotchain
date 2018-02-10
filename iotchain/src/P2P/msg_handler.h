@@ -18,8 +18,6 @@ public:
 	~msg_handler();
 	bool handle_message(p2p_node* node, p2p::message& msg);
 	bool operator()(p2p_node* node, p2p::message& msg);
-protected:
-	TX read_tx(p2p::message& msg);
 private:
 	DEF_FN_MSG_HANDLER(OnNewTransaction);
 	DEF_FN_MSG_HANDLER(OnNewBlock);
