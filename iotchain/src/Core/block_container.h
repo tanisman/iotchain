@@ -9,7 +9,13 @@ _CHAIN_THINGS_BEGIN
 
 class block_container
 {
-	using ContainerT = std::unordered_multimap<Crypto::Hash, Crypto::Hash>;
+	using mmap_hash = struct {
+		std::size_t operator()(Crypto::Hash h)
+		{
+			return *reinterpret_cast<std::size_t*>(h.data());
+		}
+	};
+	using ContainerT = std::unordered_multimap<Crypto::Hash, Crypto::Hash, mmap_hash>;
 public:
 	block_container(const std::string& path);
 	~block_container();
