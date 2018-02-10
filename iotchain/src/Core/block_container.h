@@ -10,7 +10,7 @@ _CHAIN_THINGS_BEGIN
 class block_container
 {
 	using mmap_hash = struct {
-		std::size_t operator()(const Crypto::Hash& h)
+		std::size_t operator()(const Crypto::Hash& h) const
 		{
 			return *reinterpret_cast<const std::size_t*>(h.data());
 		}
