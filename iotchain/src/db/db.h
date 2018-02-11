@@ -5,6 +5,8 @@
 #include <rocksdb/slice.h>
 #include <rocksdb/options.h>
 #include <array>
+#include <cstring>
+#include <vector>
 
 extern rocksdb::DB* g_db;
 
@@ -17,7 +19,7 @@ rocksdb::Slice make_slice(const std::array<T, _Size>& arr)
 template<typename T>
 rocksdb::Slice make_slice(const std::vector<T>& vec)
 {
-	return{ reinterpret_cast<const char*>(vec.data()), _Size * sizeof(T) };
+	return{ reinterpret_cast<const char*>(vec.data()), vec.size() * sizeof(T) };
 }
 
 template<typename T, size_t _Size>

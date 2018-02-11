@@ -19,7 +19,7 @@ class block_container
 public:
 	block_container(const std::string& path);
 	~block_container();
-	Block& generate_genesis(TX&& base_tx);
+	const Block generate_genesis(TX&& base_tx);
 	const Block genesis_block() const;
 	const ContainerT& blocks() const;
 private:

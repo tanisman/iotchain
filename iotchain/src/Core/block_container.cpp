@@ -78,7 +78,7 @@ block_container::~block_container()
 }
 
 
-Block& block_container::generate_genesis(TX&& base_tx)
+const Block block_container::generate_genesis(TX&& base_tx)
 {
 	if (index_.size() > 0)
 		throw std::logic_error("already has genesis");
