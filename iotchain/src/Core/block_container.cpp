@@ -25,6 +25,7 @@ block_container::block_container(const std::string& path)
 	{
 		//key = BlockHash(value)
 		Crypto::Hash block_hash;
+		const rocksdb::Slice& key = it->key();
 		slice_to_hash(it->key(), block_hash);
 
 		memory_reader reader(it->value().data(), it->value().size());
@@ -32,7 +33,7 @@ block_container::block_container(const std::string& path)
 
 		blocks_.emplace(bl.prev_block_hash_, block_hash); //parent->child
 	}
-	assert(it->status().ok()); // Check for any errors found during the scan
+	assert(it->status().ok() && "loading blocks has failed"); // Check for any errors found during the scan
 	delete it;
 
 }

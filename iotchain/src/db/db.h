@@ -23,7 +23,7 @@ rocksdb::Slice make_slice(const std::vector<T>& vec)
 }
 
 template<typename T, size_t _Size>
-void slice_to_hash(rocksdb::Slice& slice, std::array<T, _Size>& out)
+void slice_to_hash(const rocksdb::Slice& slice, std::array<T, _Size>& out)
 {
 	std::memcpy(out.data(), slice.data(), _Size * sizeof(T));
 }
