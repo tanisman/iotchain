@@ -119,6 +119,7 @@ TX json_serializer::deserialize_tx(json j)
 		tx_out.amount_ = it["amount"].get<uint64_t>();
 		tx.outputs_.push_back(tx_out);
 	}
+
 	return tx;
 }
 
@@ -134,6 +135,8 @@ Block json_serializer::deserialize_block(json j)
 	auto txes = j["transactions"];
 	for (auto& it : txes)
 		bl.tx_list_.push_back(deserialize_tx(it));
+
+	return bl;
 }
 
 void stream_serializer::serialize_tx(const TX& tx, stream& out)
