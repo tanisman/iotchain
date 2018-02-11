@@ -23,6 +23,8 @@ public:
 	const Block genesis_block() const;
 	const ContainerT& blocks() const;
 private:
+	std::size_t build_longest_chain();
+private:
 	ContainerT blocks_;
 	block_index index_;
 };

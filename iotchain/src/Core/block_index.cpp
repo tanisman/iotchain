@@ -24,6 +24,11 @@ void block_index::pop()
 	container_.pop_back();
 }
 
+void block_index::clear()
+{
+	container_.clear();
+}
+
 size_t block_index::size() const noexcept
 {
 	return container_.size();
@@ -50,6 +55,13 @@ const Crypto::Hash& block_index::block_at(uint32_t height) const
 	auto it = container_.begin();
 	std::advance(it, height);
 	return *it;
+}
+
+const Crypto::Hash& block_index::front_block() const
+{
+	assert(!container_.empty());
+
+	return container_.front();
 }
 
 const Crypto::Hash& block_index::tail_block() const
