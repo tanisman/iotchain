@@ -1,5 +1,6 @@
 #include <serialization.h>
 #include "msg_handler.h"
+#include "../Logging/logger.h"
 #include "../Key/public_key.h"
 
 using namespace chainthings;
@@ -36,7 +37,16 @@ DECL_FN_MSG_HANDLER(OnNewTransaction)
 {
 	TX tx = stream_serializer::deserialize_tx(msg);
 	public_key pub_key(tx.from_);
-	return pub_key.verify(TXHash(tx), tx.signature_);
+	bool verified = pub_key.verify(TXHash(tx), tx.signature_);
+
+	json jtx = json_serializer::serialize_tx(tx);
+	
+	if (!verified)
+		logger(log_level::err).format("invalid TX signature hash:{}, sign:{}", jtx["hash"].get<std::string>(), jtx["sign"].get<std::string>());
+	else
+		LOG_INFO(jtx.dump(4));
+
+	return verified;
 }
 
 DECL_FN_MSG_HANDLER(OnNewBlock)
