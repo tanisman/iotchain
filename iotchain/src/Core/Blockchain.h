@@ -14,6 +14,7 @@ class blockchain
 public:
 	blockchain();
 	~blockchain();
+	bool send_tx(TX tx);
 	bool init(const std::string& folder);
 	std::shared_ptr<block_container> container();
 	const std::string& config_folder() const;
