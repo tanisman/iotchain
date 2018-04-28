@@ -1,7 +1,6 @@
 #include <iostream>
 #include <p2p.h>
 #include "p2p_test.h"
-#include <ChainThings.h>
 #include <cxxopts.hpp>
 
 using namespace chainthings;
@@ -30,21 +29,11 @@ p2p_test::p2p_test(int argc, char **argv)
 bool p2p_test::execute()
 {
 	asio::io_service ios;
-
 	p2p::server<p2p::peer>::create(ios,this->listen_ip_, this->listen_port_)->start();
 	for (int i = 0; i < this->client_count_; i++)
 	{
 		p2p::client<p2p::peer>::create(ios, this->remote_ip_, this->remote_port_)->start();
 	}
-	
-	chainthings::blockchain bc;
-	KeyPair kp;
-	TX tx;
-	tx.from_ = { 0 };
-	tx.time_ = std::time(nullptr);
-	tx.inputs_.push_back(TXInput{ 123456789 });
-	tx.outputs_.push_back(TXOutput{ 123456789, kp.public_key() });
-	bc.send_tx(tx);
 	ios.run();
 	return true;
 }

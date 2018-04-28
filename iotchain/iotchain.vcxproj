@@ -195,7 +195,6 @@
     <ClInclude Include="src\Logging\spdlog\sinks\windebug_sink.h" />
     <ClInclude Include="src\Logging\spdlog\spdlog.h" />
     <ClInclude Include="src\Logging\spdlog\tweakme.h" />
-    <ClInclude Include="src\VM\MCLVirtualMachine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\serialization.cpp" />
@@ -215,7 +214,6 @@
     <ClCompile Include="src\Logging\spdlog\fmt\bundled\ostream.cc" />
     <ClCompile Include="src\Logging\spdlog\fmt\bundled\posix.cc" />
     <ClCompile Include="src\Logging\spdlog\fmt\bundled\printf.cc" />
-    <ClCompile Include="src\VM\MCLVirtualMachine.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,7 +8,6 @@ p2p_node::p2p_node(asio::io_service& ios, tcp::socket&& socket, std::function<vo
 	: peer::peer(ios, std::move(socket), std::move(session_end_event))
 {
 	impl_ = this;
-	//TO DO: peerleri yollama
 }
 
 p2p_node::~p2p_node()

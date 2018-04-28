@@ -12,8 +12,7 @@
 #include <sys/types.h>
 #include <pwd.h>
 #endif //
-#include "peer_list.h"
-#include "../P2P/msg_handler.h"
+
 
 using namespace chainthings;
 using namespace CryptoPP;
@@ -24,14 +23,6 @@ blockchain::blockchain()
 
 blockchain::~blockchain()
 {
-}
-
-bool blockchain::send_tx(TX tx)
-{
-	p2p::message msg(MSG_TYPE_NEW_TX);
-	stream_serializer::serialize_tx(tx, msg);
-
-	p2p::peer_list::broadcast(&msg, nullptr);
 }
 
 bool blockchain::init(const std::string& folder)
