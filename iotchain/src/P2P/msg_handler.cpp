@@ -1,7 +1,7 @@
 #include <serialization.h>
 #include "msg_handler.h"
 #include "../Logging/logger.h"
-#include "../Key/public_key.h"
+#include <public_key.h>
 
 using namespace chainthings;
 
