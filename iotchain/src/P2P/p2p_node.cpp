@@ -13,7 +13,7 @@ p2p_node::p2p_node(asio::io_service& ios, tcp::socket&& socket, std::function<vo
 
 p2p_node::~p2p_node()
 {
-
+	
 }
 
 bool p2p_node::process_msg(message& msg)

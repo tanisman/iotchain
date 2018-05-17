@@ -95,7 +95,7 @@ KeyPair::KeyPair(KeyPairType type)
 	AutoSeededRandomPool prng;
 	ECDSA<ECP, SHA256>::PrivateKey privateKey;
 	ECDSA<ECP, SHA256>::PublicKey publicKey;
-
+	
 	privateKey.Initialize(prng, ASN1::secp256k1());
 	assert(privateKey.Validate(prng, 3) && "cant validate new private key");
 

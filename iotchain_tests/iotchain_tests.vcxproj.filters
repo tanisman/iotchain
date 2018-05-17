@@ -27,6 +27,9 @@
     <ClCompile Include="p2p_test.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="sunum.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestDef.h">
@@ -36,6 +39,9 @@
       <Filter>Tests</Filter>
     </ClInclude>
     <ClInclude Include="p2p_test.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="sunum.h">
       <Filter>Tests</Filter>
     </ClInclude>
   </ItemGroup>

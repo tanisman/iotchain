@@ -129,10 +129,12 @@
     <ClCompile Include="default_test.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="p2p_test.cpp" />
+    <ClCompile Include="sunum.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="default_test.h" />
     <ClInclude Include="p2p_test.h" />
+    <ClInclude Include="sunum.h" />
     <ClInclude Include="TestDef.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

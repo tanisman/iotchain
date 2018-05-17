@@ -19,6 +19,7 @@ OPTION (ENABLE_DEBUG_MSG "Print debug log of network messages." ON)
 OPTION (ENABLE_FILE_LOGGING "Enable log to file." ON)
 OPTION (ENABLE_DEBUG_CLIENT_SEND_PING "Enable ping-pong msg after connected to peer." ON)
 OPTION (DEFINE_DEBUG "Enables misc debug options" OFF)
+OPTION (BUILD_FOR_RP3 "Build for Raspberry Pi3" OFF)
 
 IF (ENABLE_DEBUG_MSG)
 	ADD_DEFINITIONS(-DDEBUG_MSG)
@@ -34,6 +35,10 @@ ENDIF ()
 
 IF (DEFINE_DEBUG)
 	ADD_DEFINITIONS(-D_DEBUG)
+ENDIF ()
+
+IF (BUILD_FOR_RP3)
+	ADD_DEFINITIONS(-DBUILD_RP3)
 ENDIF ()
 
 #set up some important folders
@@ -96,6 +101,7 @@ SET (IOTCHAIN_SOURCES
     iotchain/src/Logging/spdlog/fmt/bundled/posix.cc
     iotchain/src/Logging/spdlog/fmt/bundled/printf.cc
     iotchain/src/db/db.cpp
+    iotchain/src/VM/MCLVirtualMachine.cpp
 )
 
 ADD_SUBDIRECTORY(external/secp256k1)
@@ -121,16 +127,24 @@ IF (UNIX)
 	TARGET_LINK_LIBRARIES(iotchain ${LIB_UUID})
 ENDIF ()
 
+IF (BUILD_FOR_RP3)
+	TARGET_LINK_LIBRARIES(iotchain -lwiringPi)
+ENDIF ()
+
 TARGET_LINK_LIBRARIES (iotchain p2p-network secp256k1 cryptopp-static rocksdb)
 
 ADD_EXECUTABLE(iotchain_tests 
 	iotchain_tests/main.cpp
 	iotchain_tests/default_test.cpp
-	iotchain_tests/p2p_test.cpp)
+	iotchain_tests/p2p_test.cpp
+	iotchain_test/sunum.cpp)
 	
 IF (UNIX)
 	TARGET_LINK_LIBRARIES(iotchain_tests -pthread)
 	TARGET_LINK_LIBRARIES(iotchain_tests ${LIB_UUID})
+ENDIF ()
+IF (BUILD_FOR_RP3)
+	TARGET_LINK_LIBRARIES(iotchain_tests -lwiringPi)
 ENDIF ()
 	
 TARGET_LINK_LIBRARIES (iotchain_tests iotchain p2p-network cryptopp-static rocksdb)

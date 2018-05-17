@@ -3,6 +3,10 @@
 #include <ChainThings.h>
 #include <cstdint>
 #include <vector>
+#include <iostream>
+#include <iomanip>
+#include <cctype>
+#include <algorithm>
 
 #undef OVERFLOW
 
@@ -11,7 +15,7 @@ _NAMESPACE_BEGIN(VM)
 
 enum Opcode : uint8_t
 {
-	HALT = 0,
+	STOP = 0,
 	ADD,
 	SUB,
 	MUL,
@@ -36,6 +40,7 @@ enum Opcode : uint8_t
 	PUSH,
 	POP,
 	MOV,
+	SYSCALL
 };
 
 enum Register : uint8_t
@@ -55,13 +60,69 @@ enum Register : uint8_t
 	BP
 };
 
+enum SYSCALL_TABLE
+{
+	Sleep = 0,
+	WPort = 1,
+	RPort = 2,
+	Stout = 3,
+};
+
+static std::ostream& hex_dump(std::ostream& os, const void *buffer,
+	std::size_t bufsize, bool showPrintableChars = true)
+{
+	if (buffer == nullptr) {
+		return os;
+	}
+	auto oldFormat = os.flags();
+	auto oldFillChar = os.fill();
+	constexpr std::size_t maxline{ 16 };
+	// create a place to store text version of string
+	char renderString[maxline + 1];
+	char *rsptr{ renderString };
+	// convenience cast
+	const unsigned char *buf{ reinterpret_cast<const unsigned char *>(buffer) };
+
+	for (std::size_t linecount = maxline; bufsize; --bufsize, --buf) {
+		os << std::setw(2) << std::setfill('0') << std::hex
+			<< static_cast<unsigned>(*buf) << ' ';
+		*rsptr++ = std::isprint(*buf) ? *buf : '.';
+		if (--linecount == 0) {
+			*rsptr++ = '\0';  // terminate string
+			if (showPrintableChars) {
+				os << " | " << renderString;
+			}
+			os << '\n';
+			rsptr = renderString;
+			linecount = std::min(maxline, bufsize);
+		}
+	}
+	// emit newline if we haven't already
+	if (rsptr != renderString) {
+		if (showPrintableChars) {
+			for (*rsptr++ = '\0'; rsptr != &renderString[maxline + 1]; ++rsptr) {
+				os << "   ";
+			}
+			os << " | " << renderString;
+		}
+		os << '\n';
+	}
+
+	os.fill(oldFillChar);
+	os.flags(oldFormat);
+	return os;
+}
+
+
 class MCLVirtualMachine
 {
 public:
 	MCLVirtualMachine(const std::vector<uint8_t>& bytecode);
+	MCLVirtualMachine(const std::vector<char>& bytecode);
 	~MCLVirtualMachine();
 	void Execute();
 	void PrintRegisters();
+	void PrintStack();
 protected:
 	Opcode ExtractOpcode(bool& op1, bool& op2);
 	Register ExtractRegister();
@@ -91,6 +152,7 @@ private:
 	char stack_[0x1000000]; //16 MB
 	uint64_t registers_[10 + 3];
 };
+
 
 _NAMESPACE_END(VM)
 _CHAIN_THINGS_END

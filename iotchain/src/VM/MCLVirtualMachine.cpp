@@ -2,31 +2,68 @@
 #include <cmath>
 #include <iostream>
 #include <iomanip>
+#include <thread>
+#include <iterator>
+#include <string.h>
+#if defined (BUILD_RP3)
+#include <wiringPi.h>
+#endif //BUILD_RP3
 
 using namespace chainthings::VM;
 
 MCLVirtualMachine::MCLVirtualMachine(const std::vector<uint8_t>& bytecode)
 	: bytecode_(bytecode)
 {
+#if defined (BUILD_RP3)
+	static bool wiring_pi_setupped = false;
+	if (!wiring_pi_setupped)
+	{
+		wiringPiSetup();
+		wiring_pi_setupped = true;
+	}
+#endif //BUILD_RP3
+
 	memset(registers_, 0, sizeof(registers_));
 	registers_[SP] = sizeof(stack_);
 }
 
+MCLVirtualMachine::MCLVirtualMachine(const std::vector<char>& bytecode)
+{
+#if defined (BUILD_RP3)
+	static bool wiring_pi_setuppedx = false;
+	if (!wiring_pi_setuppedx)
+	{
+		wiringPiSetup();
+		wiring_pi_setuppedx = true;
+	}
+#endif //BUILD_RP3
+
+	std::copy(bytecode.begin(), bytecode.end(), std::back_inserter(bytecode_));
+	memset(registers_, 0, sizeof(registers_));
+	registers_[SP] = sizeof(stack_);
+}
+
+
 void MCLVirtualMachine::PrintRegisters()
 {
-	std::cout << "R0: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[R0] << std::endl;
-	std::cout << "R1: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[R1] << std::endl;
-	std::cout << "R2: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[R2] << std::endl;
-	std::cout << "R3: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[R3] << std::endl;
-	std::cout << "R4: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[R4] << std::endl;
-	std::cout << "R5: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[R5] << std::endl;
-	std::cout << "R6: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[R6] << std::endl;
-	std::cout << "R7: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[R7] << std::endl;
-	std::cout << "R8: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[R8] << std::endl;
-	std::cout << "R9: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[R9] << std::endl;
-	std::cout << "IP: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[IP] << std::endl;
-	std::cout << "SP: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[SP] << std::endl;
-	std::cout << "BP: 0x" << std::setfill('0') << std::setw(8) << std::hex << registers_[BP] << std::endl;
+	std::cout << "R0: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[R0] << std::endl;
+	std::cout << "R1: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[R1] << std::endl;
+	std::cout << "R2: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[R2] << std::endl;
+	std::cout << "R3: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[R3] << std::endl;
+	std::cout << "R4: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[R4] << std::endl;
+	std::cout << "R5: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[R5] << std::endl;
+	std::cout << "R6: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[R6] << std::endl;
+	std::cout << "R7: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[R7] << std::endl;
+	std::cout << "R8: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[R8] << std::endl;
+	std::cout << "R9: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[R9] << std::endl;
+	std::cout << "IP: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[IP] << std::endl;
+	std::cout << "SP: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[SP] << std::endl;
+	std::cout << "BP: 0x" << std::setfill('0') << std::setw(16) << std::hex << registers_[BP] << std::endl;
+}
+
+void MCLVirtualMachine::PrintStack()
+{
+	hex_dump(std::cout, stack_ + sizeof(stack_), 1024) << std::endl;
 }
 
 void MCLVirtualMachine::Execute()
@@ -38,7 +75,7 @@ void MCLVirtualMachine::Execute()
 		opcode = this->ExtractOpcode(op1, op2);
 		switch (opcode)
 		{
-		case HALT:
+		case STOP:
 		{
 
 		}
@@ -329,8 +366,8 @@ void MCLVirtualMachine::Execute()
 			uint32_t address;
 			if (!op1) //read from register
 				address = registers_[ExtractRegister()];
-			else //read constant
-				address = ExtractConstant();
+			else //read address
+				address = ExtractAddress();
 
 			if (!op2) //relative address
 				address += registers_[IP] - 1;
@@ -343,8 +380,8 @@ void MCLVirtualMachine::Execute()
 			uint32_t address;
 			if (!op1) //read from register
 				address = registers_[ExtractRegister()];
-			else //read constant
-				address = ExtractConstant();
+			else //read address
+				address = ExtractAddress();
 
 			if (!op2) //relative address
 				address += registers_[IP] - 1;
@@ -353,6 +390,8 @@ void MCLVirtualMachine::Execute()
 
 			Push(retn_size);
 			Push(registers_[IP]);
+
+			registers_[IP] = address;
 		}
 		break;
 		case RET:
@@ -393,6 +432,37 @@ void MCLVirtualMachine::Execute()
 			registers_[reg] = v2;
 		}
 		break;
+		case SYSCALL:
+		{
+			switch (registers_[R0])
+			{
+			case Sleep:
+				std::this_thread::sleep_for(std::chrono::milliseconds(registers_[R1]));
+				break;
+#if defined (BUILD_RP3)
+			case WPort:
+				pinMode(registers_[R1], OUTPUT);
+				digitalWrite(registers_[R1], registers_[R2]);
+				break;
+			case RPort:
+				pinMode(registers_[R1], INPUT);
+				registers_[R2] = digitalRead(registers_[R1]);
+				break;
+#endif //BUILD_RP3
+			case Stout:
+			{
+				uint32_t size = (registers_[R1] - 1) / 8 + 1;
+				for (int i = 0; i < size; i++)
+				{
+					uint64_t val = Pop();
+					for (int j = 0; j < (i == size - 1 ? registers_[R1] % 8 : 8); j++)
+						putchar(*(reinterpret_cast<char*>(&val) + j));
+				}
+			}
+			break;
+			}
+		}
+		break;
 		default:
 		{
 			std::cout << "Illegal instruction: 0x" << std::setfill('0') << std::setw(2) << std::hex << opcode << std::endl;
@@ -400,7 +470,7 @@ void MCLVirtualMachine::Execute()
 		break;
 		}
 
-	} while (opcode != HALT);
+	} while (opcode != STOP);
 }
 
 Opcode MCLVirtualMachine::ExtractOpcode(bool& op1, bool& op2)
