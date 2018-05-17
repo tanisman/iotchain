@@ -137,7 +137,7 @@ ADD_EXECUTABLE(iotchain_tests
 	iotchain_tests/main.cpp
 	iotchain_tests/default_test.cpp
 	iotchain_tests/p2p_test.cpp
-	iotchain_test/sunum.cpp)
+	iotchain_tests/sunum.cpp)
 	
 IF (UNIX)
 	TARGET_LINK_LIBRARIES(iotchain_tests -pthread)
