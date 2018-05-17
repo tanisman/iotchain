@@ -28,10 +28,12 @@ bool sunum_peer::process_msg(message& msg)
 	{
 		VM::MCLVirtualMachine* interpreter = new VM::MCLVirtualMachine(msg.vector());
 		interpreter->Execute();
-		std::cout << "Smart Contract executed. VM State: " << std::endl;
-		std::cout << "Registers: " << std::endl;
+		LOG_DEBUG("Smart Contract executed. VM State:");
+		LOG_DEBUG("Registers:");
 		interpreter->PrintRegisters();
-		std::cout << std::endl << std::endl << "Stack: " << std::endl;
+		std::cout << std::endl << std::endl;
+		LOG_DEBUG("Stack:");
+		std::cout << std::endl;
 		interpreter->PrintStack();
 
 		delete interpreter;
@@ -73,8 +75,9 @@ bool sunum::execute()
 	chainthings::blockchain bc;
 	KeyPair kp;
 
-	logger(log_level::info).format("Node is running on: {}:{}", this->listen_ip_, this->listen_port_);
-	logger(log_level::info).format("Address: {}", public_key(kp.public_key()).encoded());
+	logger logger(log_level::info);
+	logger.format("Node is running on: {}:{}", this->listen_ip_, this->listen_port_);
+	logger.format("Address: {}", public_key(kp.public_key()).encoded());
 
 	while (true)
 	{
@@ -98,7 +101,8 @@ bool sunum::execute()
 			m.write(result.data(), size);
 			peer_list::broadcast(&m, nullptr);
 
-			logger(log_level::debug).format("Sent TX (Payload Size: {} bytes)", size);
+			::logger debug_logger(log_level::debug);
+			debug_logger.format("Sent TX (Payload Size: {} bytes)", size);
 		}
 	}
 
