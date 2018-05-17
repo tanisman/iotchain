@@ -1,7 +1,6 @@
 #include <iostream>
 #include <p2p.h>
 #include "sunum.h"
-#include <ChainThings.h>
 #include <cxxopts.hpp>
 
 using namespace chainthings;

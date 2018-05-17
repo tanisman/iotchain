@@ -2,14 +2,15 @@
 #define SUNUM_H
 
 #include "TestDef.h"
+#include <ChainThings.h>
 
 class sunum_peer
-	: public p2p::peer
+	: public chainthings::p2p::peer
 {
 public:
 	sunum_peer(asio::io_service& ios, tcp::socket&& socket, std::function<void(peer*)>&& session_end_event = [](peer*) {});
 	~sunum_peer();
-	bool process_msg(p2p::message& msg) override;
+	bool process_msg(chainthings::p2p::message& msg) override;
 private:
 	peer* impl_;
 };
