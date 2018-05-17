@@ -2,7 +2,7 @@
 #include "TestDef.h"
 #include "default_test.h"
 #if defined (RUN_P2P_TEST)
-#	include "p2p_test.h
+#	include "p2p_test.h"
 #endif //RUN_P2P_TEST
 #if defined (RUN_SUNUM_TEST)
 #	include "sunum.h"
