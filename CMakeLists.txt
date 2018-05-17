@@ -45,6 +45,9 @@ ENDIF ()
 SET (BLOCKCHAIN_DIR ${CMAKE_SOURCE_DIR}/iotchain)
 SET (P2P_DIR ${CMAKE_SOURCE_DIR}/p2p-network)
 SET (EXTERNAL_DIR ${CMAKE_SOURCE_DIR}/external)
+SET (TEST_BIN_DIR ${CMAKE_BINARY_DIR}/tests)
+
+FILE (MAKE_DIRECTORY ${TEST_BIN_DIR})
 
 FIND_LIBRARY (LIB_UUID NAMES libuuid.a)
 MESSAGE (STATUS "uuid lib: ${LIB_UUID}")
@@ -133,18 +136,33 @@ ENDIF ()
 
 TARGET_LINK_LIBRARIES (iotchain p2p-network secp256k1 cryptopp-static rocksdb)
 
-ADD_EXECUTABLE(iotchain_tests 
+ADD_EXECUTABLE(p2p
 	iotchain_tests/main.cpp
 	iotchain_tests/default_test.cpp
-	iotchain_tests/p2p_test.cpp
+	iotchain_tests/p2p_test.cpp)
+
+ADD_CUSTOM_COMMAND(TARGET p2p
+                   POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:p2p> ${TEST_BIN_DIR})
+
+ADD_EXECUTABLE(sunum
+	iotchain_tests/main.cpp
+	iotchain_tests/default_test.cpp
 	iotchain_tests/sunum.cpp)
-	
+
+ADD_CUSTOM_COMMAND(TARGET sunum
+                   POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:sunum> ${TEST_BIN_DIR})
+
 IF (UNIX)
-	TARGET_LINK_LIBRARIES(iotchain_tests -pthread)
-	TARGET_LINK_LIBRARIES(iotchain_tests ${LIB_UUID})
+	TARGET_LINK_LIBRARIES(p2p -pthread)
+	TARGET_LINK_LIBRARIES(p2p ${LIB_UUID})
+	TARGET_LINK_LIBRARIES(sunum -pthread)
+	TARGET_LINK_LIBRARIES(sunum ${LIB_UUID})
 ENDIF ()
 IF (BUILD_FOR_RP3)
-	TARGET_LINK_LIBRARIES(iotchain_tests -lwiringPi)
+	TARGET_LINK_LIBRARIES(p2p -lwiringPi)
+	TARGET_LINK_LIBRARIES(sunum -lwiringPi)
 ENDIF ()
 	
 TARGET_LINK_LIBRARIES (iotchain_tests iotchain p2p-network cryptopp-static rocksdb)
