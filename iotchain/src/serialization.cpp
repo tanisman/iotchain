@@ -1,5 +1,5 @@
 #include <serialization.h>
-#include "Key/public_key.h"
+#include <public_key.h>
 
 using namespace nlohmann;
 using namespace chainthings;

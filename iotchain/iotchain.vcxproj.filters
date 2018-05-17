@@ -53,8 +53,6 @@
     <ClInclude Include="src\Core\block_container.h" />
     <ClInclude Include="include\ChainTypes.h" />
     <ClInclude Include="include\base58.h" />
-    <ClInclude Include="src\Key\public_key.h" />
-    <ClInclude Include="src\Key\private_key.h" />
     <ClInclude Include="src\db\db.h" />
     <ClInclude Include="src\Core\block_index.h" />
     <ClInclude Include="include\json.hpp" />
@@ -62,6 +60,8 @@
     <ClInclude Include="src\P2P\msg_handler.h" />
     <ClInclude Include="src\P2P\p2p_node.h" />
     <ClInclude Include="src\VM\MCLVirtualMachine.h" />
+    <ClInclude Include="include\public_key.h" />
+    <ClInclude Include="include\private_key.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Blockchain.cpp" />

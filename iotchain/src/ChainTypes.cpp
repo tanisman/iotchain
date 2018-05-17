@@ -6,7 +6,7 @@
 #include <base58.h>
 #include <cassert>
 #include <fstream>
-#include "Key/private_key.h"
+#include <private_key.h>
 
 using namespace chainthings;
 using namespace CryptoPP;

@@ -5,8 +5,8 @@
 #include <cryptopp/sha.h>
 #include <cryptopp/ripemd.h>
 #include <base58.h>
-#include "private_key.h"
-#include "public_key.h"
+#include <private_key.h>
+#include <public_key.h>
 
 using namespace chainthings;
 using namespace CryptoPP;

@@ -151,8 +151,8 @@
     <ClInclude Include="src\db\db.h" />
     <ClInclude Include="src\P2P\msg_handler.h" />
     <ClInclude Include="src\P2P\p2p_node.h" />
-    <ClInclude Include="src\Key\private_key.h" />
-    <ClInclude Include="src\Key\public_key.h" />
+    <ClInclude Include="include\private_key.h" />
+    <ClInclude Include="include\public_key.h" />
     <ClInclude Include="src\Core\block_container.h" />
     <ClInclude Include="include\CryptoTypes.h" />
     <ClInclude Include="src\Core\Blockchain.h" />

@@ -1,7 +1,11 @@
 #include <iostream>
 #include <p2p.h>
+#include <peer_list.h>
 #include "sunum.h"
-#include <cxxopts.hpp>	
+#include <cxxopts.hpp>
+#include <public_key.h>
+#include <iostream>
+#include <fstream>
 
 using namespace chainthings;
 using namespace chainthings::p2p;
@@ -60,21 +64,47 @@ bool sunum::execute()
 {
 	asio::io_service ios;
 
-	p2p::server<p2p::peer>::create(ios, this->listen_ip_, this->listen_port_)->start();
+	p2p::server<sunum_peer>::create(ios, this->listen_ip_, this->listen_port_)->start();
 	for (int i = 0; i < this->client_count_; i++)
 	{
-		p2p::client<p2p::peer>::create(ios, this->remote_ip_, this->remote_port_)->start();
+		p2p::client<sunum_peer>::create(ios, this->remote_ip_, this->remote_port_)->start();
 	}
 
 	chainthings::blockchain bc;
 	KeyPair kp;
-	TX tx;
-	tx.from_ = { 0 };
-	tx.time_ = std::time(nullptr);
-	tx.inputs_.push_back(TXInput{ 123456789 });
-	tx.outputs_.push_back(TXOutput{ 123456789, kp.public_key() });
-	bc.send_tx(tx);
-	ios.run();
+
+	logger(log_level::info).format("Node is running on: {}:{}", this->listen_ip_, this->listen_port_);
+	logger(log_level::info).format("Address: {}", public_key(kp.public_key()).encoded());
+
+	while (true)
+	{
+		std::string cmd;
+		std::cin >> cmd;
+		if (cmd == "newtx")
+		{
+			std::string target;
+			std::string file;
+			std::cin >> target;
+			std::cin >> file;
+
+			std::ifstream ifile(file, std::ios::binary | std::ios::ate);
+			auto size = ifile.tellg();
+
+			std::vector<char> result(size);
+			ifile.seekg(0, std::ios::beg);
+			ifile.read(&result[0], size);
+
+			message m(5, 1);
+			m.write(result.data(), size);
+			peer_list::broadcast(&m, nullptr);
+
+			logger(log_level::debug).format("Sent TX (Payload Size: {} bytes)", size);
+		}
+	}
+
+	std::thread([&] {
+		ios.run();
+	}).detach();
 	return true;
 }
 

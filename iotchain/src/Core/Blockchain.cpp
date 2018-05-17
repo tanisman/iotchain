@@ -1,8 +1,8 @@
 #include "Blockchain.h"
 #include <cassert>
 #include <iostream>
-#include "../Key/private_key.h"
-#include "../Key/public_key.h"
+#include <private_key.h>
+#include <public_key.h>
 #include <serialization.h>
 #include "../db/db.h"
 #include <cryptopp/sha.h>
