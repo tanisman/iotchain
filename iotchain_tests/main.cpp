@@ -1,33 +1,34 @@
 #include <iostream>
 #include "TestDef.h"
 #include "default_test.h"
-#include "p2p_test.h"
+#if defined (RUN_P2P_TEST)
+#	include "p2p_test.h
+#endif //RUN_P2P_TEST
+#if defined (RUN_SUNUM_TEST)
+#	include "sunum.h"
+#endif //RUN_SUNUM_TEST
 #include "ChainThings.h"
 
 int main(int argc, char **argv)
 {
-#if defined (RUN_DEFAULT_TEST)
-	std::cout << "Running test case '" << default_test::TEST_NAME << "'" << std::endl;
-	if (default_test(argc, argv).execute())
-	{
-		std::cout << "Test case '" << default_test::TEST_NAME << "' has succeeded" << std::endl;
-	}
-	else
-	{
-		std::cout << "Test case '" << default_test::TEST_NAME << "' has succeeded" << std::endl;
-	}
-#endif //RUN_DEFAULT_TEST
+	using run_test_case = default_test;
 #if defined (RUN_P2P_TEST)
-	std::cout << "Running test case '" << p2p_test::TEST_NAME << "'" << std::endl;
-	if (p2p_test(argc, argv).execute())
+	using run_test_case = p2p_test;
+#endif //RUN_P2P_TEST
+#if defined (RUN_SUNUM_TEST)
+	using run_test_case = sunum;
+#endif //RUN_SUNUM_TEST
+
+	std::cout << "Running test case '" << run_test_case::TEST_NAME << "'" << std::endl;
+	if (run_test_case(argc, argv).execute())
 	{
-		std::cout << "Test case '" << p2p_test::TEST_NAME << "' has succeeded" << std::endl;
+		std::cout << "Test case '" << run_test_case::TEST_NAME << "' has succeeded" << std::endl;
 	}
 	else
 	{
-		std::cout << "Test case '" << p2p_test::TEST_NAME << "' has succeeded" << std::endl;
+		std::cout << "Test case '" << run_test_case::TEST_NAME << "' has succeeded" << std::endl;
 	}
-#endif //RUN_P2P_TEST
+
 #if defined (WIN32)
 	system("pause");
 #endif

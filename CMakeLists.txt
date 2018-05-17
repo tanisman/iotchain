@@ -141,6 +141,8 @@ ADD_EXECUTABLE(p2p
 	iotchain_tests/default_test.cpp
 	iotchain_tests/p2p_test.cpp)
 
+SET_TARGET_PROPERTIES(p2p PROPERTIES COMPILE_DEFINITIONS "RUN_P2P_TEST=1")
+
 ADD_CUSTOM_COMMAND(TARGET p2p
                    POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:p2p> ${TEST_BIN_DIR})
@@ -149,6 +151,8 @@ ADD_EXECUTABLE(sunum
 	iotchain_tests/main.cpp
 	iotchain_tests/default_test.cpp
 	iotchain_tests/sunum.cpp)
+
+SET_TARGET_PROPERTIES(sunum PROPERTIES COMPILE_DEFINITIONS "RUN_SUNUM_TEST=1")
 
 ADD_CUSTOM_COMMAND(TARGET sunum
                    POST_BUILD

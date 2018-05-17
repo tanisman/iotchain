@@ -32,6 +32,7 @@ bool sunum_peer::process_msg(message& msg)
 
 		delete interpreter;
 	}
+	return true;
 }
 
 const char* sunum::TEST_NAME = "SUNUM TEST";
