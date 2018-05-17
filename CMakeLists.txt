@@ -165,4 +165,5 @@ IF (BUILD_FOR_RP3)
 	TARGET_LINK_LIBRARIES(sunum -lwiringPi)
 ENDIF ()
 	
-TARGET_LINK_LIBRARIES (iotchain_tests iotchain p2p-network cryptopp-static rocksdb)
+TARGET_LINK_LIBRARIES (p2p iotchain p2p-network cryptopp-static rocksdb)
+TARGET_LINK_LIBRARIES (sunum iotchain p2p-network cryptopp-static rocksdb)
