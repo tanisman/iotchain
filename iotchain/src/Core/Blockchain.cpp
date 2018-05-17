@@ -32,6 +32,7 @@ bool blockchain::send_tx(TX tx)
 	stream_serializer::serialize_tx(tx, msg);
 
 	p2p::peer_list::broadcast(&msg, nullptr);
+	return true;
 }
 
 bool blockchain::init(const std::string& folder)

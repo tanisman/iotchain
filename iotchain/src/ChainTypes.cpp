@@ -85,6 +85,8 @@ BlockHash::BlockHash(const Block& bl)
 
 KeyPair::KeyPair(KeyPairType type)
 {
+	secp256k1_sign_start();
+
 	KeyType private_key_t = account_private_key;
 	if (type == smart_contract_key)
 	{
@@ -114,4 +116,6 @@ KeyPair::KeyPair(KeyPairType type)
 	/****** save to file ******/
 	std::ofstream ofile(pub_key.encoded() + "_private.txt", std::ios::out);
 	ofile << priv_key.encoded();
+
+	secp256k1_sign_stop();
  }
