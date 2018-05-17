@@ -3,16 +3,17 @@
 
 #include "TestDef.h"
 #include <ChainThings.h>
+#include <p2p.h>
 
 class sunum_peer
 	: public chainthings::p2p::peer
 {
 public:
-	sunum_peer(asio::io_service& ios, tcp::socket&& socket, std::function<void(peer*)>&& session_end_event = [](peer*) {});
+	sunum_peer(asio::io_service& ios, tcp::socket&& socket, std::function<void(chainthings::p2p::peer*)>&& session_end_event = [](chainthings::p2p::peer*) {});
 	~sunum_peer();
 	bool process_msg(chainthings::p2p::message& msg) override;
 private:
-	peer* impl_;
+	chainthings::p2p::peer* impl_;
 };
 
 class sunum

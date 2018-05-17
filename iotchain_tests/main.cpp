@@ -11,13 +11,13 @@
 
 int main(int argc, char **argv)
 {
-	using run_test_case = default_test;
 #if defined (RUN_P2P_TEST)
 	using run_test_case = p2p_test;
-#endif //RUN_P2P_TEST
-#if defined (RUN_SUNUM_TEST)
+#elif defined (RUN_SUNUM_TEST)
 	using run_test_case = sunum;
-#endif //RUN_SUNUM_TEST
+#else
+	using run_test_case = default_test;
+#endif
 
 	std::cout << "Running test case '" << run_test_case::TEST_NAME << "'" << std::endl;
 	if (run_test_case(argc, argv).execute())
