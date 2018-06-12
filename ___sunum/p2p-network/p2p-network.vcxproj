@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{925D14AE-2F21-4B0E-9350-784F8D374B97}</ProjectGuid>
+    <RootNamespace>p2pnetwork</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\GitHub\iotchain\external\asio\include;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)p2p-network\lib\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\GitHub\iotchain\external\asio\include;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)p2p-network\lib\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\GitHub\iotchain\external\asio\include;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)p2p-network\lib\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\GitHub\iotchain\external\asio\include;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)p2p-network\lib\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\asio\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\impl\client_impl.h" />
+    <ClInclude Include="include\buffer_stream.hpp" />
+    <ClInclude Include="include\client.h" />
+    <ClInclude Include="include\impl\server_impl.h" />
+    <ClInclude Include="include\memory_reader.hpp" />
+    <ClInclude Include="include\p2p-internal.h" />
+    <ClInclude Include="include\message.h" />
+    <ClInclude Include="include\p2p.h" />
+    <ClInclude Include="include\peer_list.h" />
+    <ClInclude Include="include\protocol.h" />
+    <ClInclude Include="include\peer.h" />
+    <ClInclude Include="include\server.h" />
+    <ClInclude Include="include\stream.h" />
+    <ClInclude Include="include\uuid.h" />
+    <ClInclude Include="src\Logging\logger.h" />
+    <ClInclude Include="src\Logging\spdlog\async_logger.h" />
+    <ClInclude Include="src\Logging\spdlog\common.h" />
+    <ClInclude Include="src\Logging\spdlog\details\async_logger_impl.h" />
+    <ClInclude Include="src\Logging\spdlog\details\async_log_helper.h" />
+    <ClInclude Include="src\Logging\spdlog\details\file_helper.h" />
+    <ClInclude Include="src\Logging\spdlog\details\logger_impl.h" />
+    <ClInclude Include="src\Logging\spdlog\details\log_msg.h" />
+    <ClInclude Include="src\Logging\spdlog\details\mpmc_bounded_q.h" />
+    <ClInclude Include="src\Logging\spdlog\details\null_mutex.h" />
+    <ClInclude Include="src\Logging\spdlog\details\os.h" />
+    <ClInclude Include="src\Logging\spdlog\details\pattern_formatter_impl.h" />
+    <ClInclude Include="src\Logging\spdlog\details\registry.h" />
+    <ClInclude Include="src\Logging\spdlog\details\spdlog_impl.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\bundled\format.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\bundled\ostream.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\bundled\posix.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\bundled\printf.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\bundled\time.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\fmt.h" />
+    <ClInclude Include="src\Logging\spdlog\fmt\ostr.h" />
+    <ClInclude Include="src\Logging\spdlog\formatter.h" />
+    <ClInclude Include="src\Logging\spdlog\logger.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\android_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\ansicolor_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\base_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\dist_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\file_sinks.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\msvc_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\null_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\ostream_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\stdout_sinks.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\syslog_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\wincolor_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\sinks\windebug_sink.h" />
+    <ClInclude Include="src\Logging\spdlog\spdlog.h" />
+    <ClInclude Include="src\Logging\spdlog\tweakme.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="include\impl\client_impl.cpp" />
+    <ClCompile Include="include\impl\server_impl.cpp" />
+    <ClCompile Include="src\Logging\logger.cpp" />
+    <ClCompile Include="src\Logging\spdlog\fmt\bundled\format.cc" />
+    <ClCompile Include="src\Logging\spdlog\fmt\bundled\ostream.cc" />
+    <ClCompile Include="src\Logging\spdlog\fmt\bundled\posix.cc" />
+    <ClCompile Include="src\Logging\spdlog\fmt\bundled\printf.cc" />
+    <ClCompile Include="src\peer.cpp" />
+    <ClCompile Include="src\peer_list.cpp" />
+    <ClCompile Include="src\protocol.cpp" />
+    <ClCompile Include="src\message.cpp" />
+    <ClCompile Include="src\uuid.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
